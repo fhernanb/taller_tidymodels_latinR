@@ -1,2 +1,2 @@
 
-<img src="figs/intro.gif" align="right" alt="" width="120" />
+<img src="figs/intro.gif" align="center" alt="" width="1200" />
