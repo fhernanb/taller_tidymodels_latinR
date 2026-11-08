@@ -1,0 +1,4 @@
+- source: taller_tidymodels_latinR.qmd
+  posit-connect-cloud:
+    - id: 01a15f28-0e88-0536-ae18-c76ba5b5e5ec
+      url: https://connect.posit.cloud/freddy-hb/content/01a15f28-0e88-0536-ae18-c76ba5b5e5ec

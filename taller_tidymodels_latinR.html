@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Construyendo modelos de Machine Learning con tidymodels</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="taller_tidymodels_latinR_files/libs/clipboard/clipboard.min.js"></script>
+<script src="taller_tidymodels_latinR_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="taller_tidymodels_latinR_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="taller_tidymodels_latinR_files/libs/quarto-html/popper.min.js"></script>
+<script src="taller_tidymodels_latinR_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="taller_tidymodels_latinR_files/libs/quarto-html/anchor.min.js"></script>
+<link href="taller_tidymodels_latinR_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="taller_tidymodels_latinR_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="taller_tidymodels_latinR_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="taller_tidymodels_latinR_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="taller_tidymodels_latinR_files/libs/bootstrap/bootstrap-917079515d91bccb85b543faf8aa8bb6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ecosistema-tidymodels" id="toc-ecosistema-tidymodels" class="nav-link active" data-scroll-target="#ecosistema-tidymodels"><span class="header-section-number">1</span> Ecosistema tidymodels</a>
+  <ul class="collapse">
+  <li><a href="#ventajas-de-tidymodels" id="toc-ventajas-de-tidymodels" class="nav-link" data-scroll-target="#ventajas-de-tidymodels"><span class="header-section-number">1.1</span> Ventajas de tidymodels</a></li>
+  <li><a href="#material-para-aprender" id="toc-material-para-aprender" class="nav-link" data-scroll-target="#material-para-aprender"><span class="header-section-number">1.2</span> Material para aprender</a>
+  <ul class="collapse">
+  <li><a href="#página-web-httpswww.tidymodels.org" id="toc-página-web-httpswww.tidymodels.org" class="nav-link" data-scroll-target="#página-web-httpswww.tidymodels.org">Página web https://www.tidymodels.org</a></li>
+  <li><a href="#libro-tidy-modeling-with-r" id="toc-libro-tidy-modeling-with-r" class="nav-link" data-scroll-target="#libro-tidy-modeling-with-r">Libro “Tidy Modeling with R”</a></li>
+  <li><a href="#libro-machine-learning-with-tidymodels" id="toc-libro-machine-learning-with-tidymodels" class="nav-link" data-scroll-target="#libro-machine-learning-with-tidymodels">Libro “Machine Learning with Tidymodels”</a></li>
+  <li><a href="#video-tidymodels-en-39-minutos" id="toc-video-tidymodels-en-39-minutos" class="nav-link" data-scroll-target="#video-tidymodels-en-39-minutos">Video tidymodels en 39 minutos</a></li>
+  </ul></li>
+  <li><a href="#equipo-desarrollador" id="toc-equipo-desarrollador" class="nav-link" data-scroll-target="#equipo-desarrollador"><span class="header-section-number">1.3</span> Equipo desarrollador</a></li>
+  <li><a href="#instalación-y-carga" id="toc-instalación-y-carga" class="nav-link" data-scroll-target="#instalación-y-carga"><span class="header-section-number">1.4</span> Instalación y carga</a></li>
+  <li><a href="#cheat-sheets" id="toc-cheat-sheets" class="nav-link" data-scroll-target="#cheat-sheets"><span class="header-section-number">1.5</span> Cheat sheets</a></li>
+  </ul></li>
+  <li><a href="#estructura-del-taller" id="toc-estructura-del-taller" class="nav-link" data-scroll-target="#estructura-del-taller"><span class="header-section-number">2</span> Estructura del taller</a></li>
+  <li><a href="#datos-de-ejemplo-toy-data" id="toc-datos-de-ejemplo-toy-data" class="nav-link" data-scroll-target="#datos-de-ejemplo-toy-data"><span class="header-section-number">3</span> Datos de ejemplo (toy data)</a></li>
+  <li><a href="#recipes" id="toc-recipes" class="nav-link" data-scroll-target="#recipes"><span class="header-section-number">4</span> recipes</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-básico" id="toc-ejemplo-básico" class="nav-link" data-scroll-target="#ejemplo-básico"><span class="header-section-number">4.1</span> Ejemplo básico</a></li>
+  <li><a href="#ejemplo-con-datos-faltantes-na" id="toc-ejemplo-con-datos-faltantes-na" class="nav-link" data-scroll-target="#ejemplo-con-datos-faltantes-na"><span class="header-section-number">4.2</span> Ejemplo con datos faltantes NA</a></li>
+  <li><a href="#ejemplo-con-términos-de-interacción" id="toc-ejemplo-con-términos-de-interacción" class="nav-link" data-scroll-target="#ejemplo-con-términos-de-interacción"><span class="header-section-number">4.3</span> Ejemplo con términos de interacción</a></li>
+  </ul></li>
+  <li><a href="#rsample" id="toc-rsample" class="nav-link" data-scroll-target="#rsample"><span class="header-section-number">5</span> rsample</a>
+  <ul class="collapse">
+  <li><a href="#función-principal" id="toc-función-principal" class="nav-link" data-scroll-target="#función-principal">Función principal</a></li>
+  <li><a href="#ejemplo-sin-usar-strata" id="toc-ejemplo-sin-usar-strata" class="nav-link" data-scroll-target="#ejemplo-sin-usar-strata"><span class="header-section-number">5.1</span> Ejemplo sin usar <code>strata</code></a></li>
+  <li><a href="#ejemplo-usando-strata-con-variable-cualitativa" id="toc-ejemplo-usando-strata-con-variable-cualitativa" class="nav-link" data-scroll-target="#ejemplo-usando-strata-con-variable-cualitativa"><span class="header-section-number">5.2</span> Ejemplo usando <code>strata</code> con variable cualitativa</a></li>
+  <li><a href="#ejemplo-usando-strata-con-variable-cuantitativa" id="toc-ejemplo-usando-strata-con-variable-cuantitativa" class="nav-link" data-scroll-target="#ejemplo-usando-strata-con-variable-cuantitativa"><span class="header-section-number">5.3</span> Ejemplo usando <code>strata</code> con variable cuantitativa</a></li>
+  </ul></li>
+  <li><a href="#parsnip" id="toc-parsnip" class="nav-link" data-scroll-target="#parsnip"><span class="header-section-number">6</span> parsnip</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-básico-1" id="toc-ejemplo-básico-1" class="nav-link" data-scroll-target="#ejemplo-básico-1"><span class="header-section-number">6.1</span> Ejemplo básico</a></li>
+  </ul></li>
+  <li><a href="#workflows" id="toc-workflows" class="nav-link" data-scroll-target="#workflows"><span class="header-section-number">7</span> workflows</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-básico-2" id="toc-ejemplo-básico-2" class="nav-link" data-scroll-target="#ejemplo-básico-2"><span class="header-section-number">7.1</span> Ejemplo básico</a></li>
+  <li><a href="#ejemplo-básico---estimando-con-nueva-información" id="toc-ejemplo-básico---estimando-con-nueva-información" class="nav-link" data-scroll-target="#ejemplo-básico---estimando-con-nueva-información"><span class="header-section-number">7.2</span> Ejemplo básico - Estimando con nueva información</a></li>
+  </ul></li>
+  <li><a href="#yardstick" id="toc-yardstick" class="nav-link" data-scroll-target="#yardstick"><span class="header-section-number">8</span> yardstick</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-básico-3" id="toc-ejemplo-básico-3" class="nav-link" data-scroll-target="#ejemplo-básico-3"><span class="header-section-number">8.1</span> Ejemplo básico</a></li>
+  </ul></li>
+  <li><a href="#remuestreo---validación-cruzada" id="toc-remuestreo---validación-cruzada" class="nav-link" data-scroll-target="#remuestreo---validación-cruzada"><span class="header-section-number">9</span> Remuestreo - validación cruzada</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-básico-4" id="toc-ejemplo-básico-4" class="nav-link" data-scroll-target="#ejemplo-básico-4"><span class="header-section-number">9.1</span> Ejemplo básico</a></li>
+  <li><a href="#ejemplo-básico-5" id="toc-ejemplo-básico-5" class="nav-link" data-scroll-target="#ejemplo-básico-5"><span class="header-section-number">9.2</span> Ejemplo básico</a></li>
+  </ul></li>
+  <li><a href="#tune" id="toc-tune" class="nav-link" data-scroll-target="#tune"><span class="header-section-number">10</span> tune</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-básico-6" id="toc-ejemplo-básico-6" class="nav-link" data-scroll-target="#ejemplo-básico-6"><span class="header-section-number">10.1</span> Ejemplo básico</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-integrador" id="toc-ejemplo-integrador" class="nav-link" data-scroll-target="#ejemplo-integrador"><span class="header-section-number">11</span> Ejemplo integrador</a></li>
+  <li><a href="#reto" id="toc-reto" class="nav-link" data-scroll-target="#reto"><span class="header-section-number">12</span> Reto</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Construyendo modelos de Machine Learning con tidymodels</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/intro.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="700"></p>
+</figure>
+</div>
+<p>Escanea el QR para consultar este documento:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/qr.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="150"></p>
+</figure>
+</div>
+<section id="ecosistema-tidymodels" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Ecosistema tidymodels</h1>
+<p>Bienvenidos al taller práctico sobre <strong>tidymodels</strong>, un paquete en R diseñado para modelado y aprendizaje automático (machine learning) utilizando los principios de tidyverse.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/hexalogos.png" class="img-fluid figure-img" width="800"></p>
+<figcaption>Paquetes de tidymodels</figcaption>
+</figure>
+</div>
+<section id="ventajas-de-tidymodels" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="ventajas-de-tidymodels"><span class="header-section-number">1.1</span> Ventajas de tidymodels</h2>
+<ul>
+<li><strong>Sintaxis unificada:</strong> Proporciona una interfaz consistente (<strong>parsnip</strong>) para entrenar cientos de modelos de Machine Learning (regresión lineal, árboles de decisión, random forest, XGBoost, etc.) sin tener que aprender la sintaxis nativa de cada paquete específico.</li>
+<li><strong>Diseño modular:</strong> Cada tarea del flujo de trabajo (dividir datos, limpiar, entrenar, evaluar) cuenta con un paquete especializado y cohesivo.</li>
+<li><strong>Integración con Tidyverse:</strong> Se integra perfectamente con pipes (<code>|&gt;</code> o <code>|&gt;</code>), estructuras de datos tipo <code>tibble</code> y funciones de manipulación de datos habituales.</li>
+<li><strong>Prevención de fuga de datos:</strong> Gracias al uso de <strong>recipes</strong> y <strong>workflows</strong>, el preprocesamiento de datos se calcula únicamente sobre los conjuntos de entrenamiento, aplicando las mismas transformaciones de forma segura en validación o prueba.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/utilidad_tidymodels.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></p>
+</figure>
+</div>
+<p>A continuación tenemos un ejemplo de tres random forests para regresión utilizando tres paquetes diferentes:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From randomForest</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>rf_1 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">10</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntree =</span> <span class="dv">2000</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># From ranger</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>rf_2 <span class="ot">&lt;-</span> <span class="fu">ranger</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">10</span>, </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">num.trees =</span> <span class="dv">2000</span>, </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> <span class="st">"impurity"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># From sparklyr</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>rf_3 <span class="ot">&lt;-</span> <span class="fu">ml_random_forest</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  dat, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercept =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> <span class="st">"y"</span>, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">names</span>(dat)[<span class="fu">names</span>(dat) <span class="sc">!=</span> <span class="st">"y"</span>], </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.sample.rate =</span> <span class="dv">10</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">num.trees =</span> <span class="dv">2000</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Tener que memorizar tantos nombres de parámetros y diferentes formas de ingresar los datos es estresante.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/brain-explosion.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="300"></p>
+</figure>
+</div>
+</section>
+<section id="material-para-aprender" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="material-para-aprender"><span class="header-section-number">1.2</span> Material para aprender</h2>
+<p>Existe un extenso material en la web que se puede utilizar para aprender sobre tidymodels.</p>
+<section id="página-web-httpswww.tidymodels.org" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="página-web-httpswww.tidymodels.org">Página web <a href="https://www.tidymodels.org" class="uri">https://www.tidymodels.org</a></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/web_tidymodels.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></p>
+</figure>
+</div>
+<p><br><br></p>
+</section>
+<section id="libro-tidy-modeling-with-r" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="libro-tidy-modeling-with-r">Libro “Tidy Modeling with R”</h3>
+<p>El libro se puede consultar en <a href="https://www.tmwr.org" class="uri">https://www.tmwr.org</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/book_tdr.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+</figure>
+</div>
+</section>
+<section id="libro-machine-learning-with-tidymodels" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="libro-machine-learning-with-tidymodels">Libro “Machine Learning with Tidymodels”</h3>
+<p>El libro se puede consultar en <a href="https://gedeck.github.io/machine-learning-with-tidymodels/" class="uri">https://gedeck.github.io/machine-learning-with-tidymodels/</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/book_Peter_Gedeck.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></p>
+</figure>
+</div>
+</section>
+<section id="video-tidymodels-en-39-minutos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="video-tidymodels-en-39-minutos">Video tidymodels en 39 minutos</h3>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/fRj8dr-aSsU?si=ZSnXfNL2IYD2nCiG" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+</section>
+<section id="equipo-desarrollador" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="equipo-desarrollador"><span class="header-section-number">1.3</span> Equipo desarrollador</h2>
+<p>El equipo de trabajo de tidymodels tiene a varios colaboradores que se pueden consultar en <a href="https://www.tidymodels.org/about/">este enlace</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/team.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="800"></p>
+</figure>
+</div>
+</section>
+<section id="instalación-y-carga" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="instalación-y-carga"><span class="header-section-number">1.4</span> Instalación y carga</h2>
+<p>Se puede instalar paquete por paquete o todo el ecosistema de tidymodels de la siguiente manera:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidymodels"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.5.0 ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ broom        1.0.13     ✔ recipes      1.4.0 
+✔ dials        1.4.3      ✔ rsample      1.3.2 
+✔ dplyr        1.2.1      ✔ tailor       0.1.0 
+✔ ggplot2      4.0.3      ✔ tidyr        1.3.2 
+✔ infer        1.1.0      ✔ tune         2.1.0 
+✔ modeldata    1.5.1      ✔ workflows    1.3.0 
+✔ parsnip      1.6.0      ✔ workflowsets 1.1.1 
+✔ purrr        1.2.2      ✔ yardstick    1.4.0 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ purrr::discard() masks scales::discard()
+✖ dplyr::filter()  masks stats::filter()
+✖ dplyr::lag()     masks stats::lag()
+✖ recipes::step()  masks stats::step()</code></pre>
+</div>
+</div>
+</section>
+<section id="cheat-sheets" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="cheat-sheets"><span class="header-section-number">1.5</span> Cheat sheets</h2>
+<p>Todos los paquetes de tidymodels tienen una hoja de trucos (cheat sheets) que contiene explicaciones de las funciones más importantes de cada paquete. Consultarlas es una forma rápida para entender la utilidad de cada paquete.</p>
+<p>En el siguiente enlace se pueden consultar todas las hojas de trucos.</p>
+<p><a href="https://www.tidymodels.org/cheatsheets/" class="uri">https://www.tidymodels.org/cheatsheets/</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/hojas_de_trucos.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="800"></p>
+</figure>
+</div>
+<hr>
+</section>
+</section>
+<section id="estructura-del-taller" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Estructura del taller</h1>
+<p>El taller tendrá las siguientes actividades:</p>
+<ul>
+<li>Mirar y analizar códigos para realizar una tarea.</li>
+<li>Completar códigos para realizar una tarea.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/person_programming.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+</figure>
+</div>
+<hr>
+</section>
+<section id="datos-de-ejemplo-toy-data" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Datos de ejemplo (toy data)</h1>
+<p>En esta sección vamos a mostrar los datos que vamos a utilizar como ejemplo. La idea de estos datos sencillos y con pocas observaciones y variables, es que podamos ver la utilidad de las funciones sin que los datos se roben el protagonismo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gen_dat <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dni <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">10000000</span> <span class="sc">*</span> <span class="fu">runif</span>(<span class="at">n=</span>n), <span class="at">digits=</span><span class="dv">6</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  dni <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(dni)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  exp <span class="ot">&lt;-</span> <span class="fu">rpois</span>(n, <span class="at">lambda=</span><span class="dv">10</span>)         <span class="co"># Cuanti 1 (Predictora)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  edad <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">22</span><span class="sc">:</span><span class="dv">65</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)   <span class="co"># Cuanti 2 (Predictora)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  educa <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Posgrado"</span>, <span class="st">"Universitario"</span>, <span class="st">"Tecnico"</span>), </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                        n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Tecnico"</span>, </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Universitario"</span>, </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Posgrado"</span>)) <span class="co"># Cuali 1 (Predictora)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  depto <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Ventas"</span>, <span class="st">"IT"</span>, <span class="st">"Finanzas"</span>), </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                        n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Ventas"</span>, <span class="st">"IT"</span>, <span class="st">"Finanzas"</span>)) <span class="co"># Cuali 2 (Predictora)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Creando la variable respuesta</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> edad <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> exp <span class="sc">+</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span> <span class="sc">*</span> (depto <span class="sc">==</span> <span class="st">"IT"</span>) <span class="sc">+</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span> <span class="sc">*</span> (depto <span class="sc">==</span> <span class="st">"Finanzas"</span>) <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span> <span class="sc">*</span> (educa <span class="sc">==</span> <span class="st">"Universitario"</span>) <span class="sc">+</span> </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">15</span> <span class="sc">*</span> (educa <span class="sc">==</span> <span class="st">"Posgrado"</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  salario <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> media, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># (Variable Respuesta de interés)</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">exp=</span>exp, <span class="at">edad=</span>edad, </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">educa=</span>educa, <span class="at">depto=</span>depto, </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dni=</span>dni, <span class="at">salario=</span>salario)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat</span>(<span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   exp edad         educa    depto     dni  salario
+1   15   40      Posgrado Finanzas 2875775 260.8674
+2   11   57       Tecnico       IT 7883051 311.4860
+3    5   35      Posgrado   Ventas 4089769 206.2979
+4    4   38      Posgrado       IT 8830174 186.7268
+5   13   64 Universitario   Ventas 9404672 351.2821
+6   11   60       Tecnico   Ventas  455564 327.8655
+7   11   33       Tecnico Finanzas 5281054 181.7949
+8   10   36      Posgrado   Ventas 8924190 222.3455
+9    8   53       Tecnico       IT 5514350 295.0018
+10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+</div>
+</div>
+<p>Exploremos la estructura de nuestros datos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 10
+Columns: 6
+$ exp     &lt;int&gt; 15, 11, 5, 4, 13, 11, 11, 10, 8, 15
+$ edad    &lt;int&gt; 40, 57, 35, 38, 64, 60, 33, 36, 53, 63
+$ educa   &lt;fct&gt; Posgrado, Tecnico, Posgrado, Posgrado, Universitario, Tecnico,…
+$ depto   &lt;fct&gt; Finanzas, IT, Ventas, IT, Ventas, Ventas, Finanzas, Ventas, IT…
+$ dni     &lt;int&gt; 2875775, 7883051, 4089769, 8830174, 9404672, 455564, 5281054, …
+$ salario &lt;dbl&gt; 260.8674, 311.4860, 206.2979, 186.7268, 351.2821, 327.8655, 18…</code></pre>
+</div>
+</div>
+<p><img src="figs/objective.jpeg" class="img-fluid" width="150"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Objetivo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Crear un modelo de regresión (estadístico o ML) para predecir el salario en función de los predictores.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="recipes" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> recipes</h1>
+<p><img src="figs/recipes.jpeg" class="img-fluid" width="100"></p>
+<p>El paquete <strong>recipes</strong> se utiliza para el preprocesamiento y <em>feature engineering</em>. Permite definir una serie de pasos secuenciales (normalizar variables numéricas, imputar valores faltantes, crear variables dummy, etc.) antes de crear un modelo estadístico o un modelo de machine learning.</p>
+<p>Recomendación: ver el siguiente video para profundizar.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ver el siguiente video para profundizar.</p>
+</div>
+</div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/GdR_S8bYaag?si=5gMxWObLjO5sDt52" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Veamos un ejemplo de la receta para una torta o pastel de zanahoria.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/pastel_zanahoria.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500"></p>
+</figure>
+</div>
+<p>La función <code>recipe()</code> nos permite crear recetas para un modelo de interés, la estructura básica de la función es:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/recipe_fun.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500"></p>
+</figure>
+</div>
+<p>Existen muchas funciones en recipes que hacen transformaciones sobre las variables, algunas de ellas son:</p>
+<ul>
+<li><code>step_range(min=0, max=1)</code>: convierte al intervalo [0, 1].</li>
+<li><code>step_center()</code>: convierte la variable para que tenga media 0.</li>
+<li><code>step_normalize()</code>: convierte la variable para que tenga media 0 y varianza 1.</li>
+<li><code>step_sqrt()</code>: aplica <span class="math inline">\(\sqrt{.}\)</span>.</li>
+<li><code>step_log()</code>: aplicar <span class="math inline">\(\log(.)\)</span>.</li>
+<li>…</li>
+<li><code>step_impute_bag()</code></li>
+<li><code>step_impute_knn()</code></li>
+<li><code>step_impute_linear()</code></li>
+<li>…</li>
+</ul>
+<p>Existen las funciones “selectors” o seleccionadores de variables, algunas de ellas son:</p>
+<ul>
+<li><code>all_outcomes()</code></li>
+<li><code>all_predictors()</code></li>
+<li><code>all_numeric_predictors()</code></li>
+<li><code>all_factor_predictors()</code></li>
+<li><code>all_nominal()</code></li>
+<li><code>all_numeric()</code></li>
+<li><code>has_role()</code></li>
+<li><code>has_type()</code></li>
+<li><code>dplyr::select()</code></li>
+</ul>
+<section id="ejemplo-básico" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="ejemplo-básico"><span class="header-section-number">4.1</span> Ejemplo básico</h2>
+<p>Vamos a crear la receta para el modelo de interés.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rec1 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(salario <span class="sc">~</span> ., <span class="at">data=</span>datos) <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(dni, <span class="at">new_role=</span><span class="st">"ID"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_range</span>(edad, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_sqrt</span>(exp) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_factor_predictors</span>())</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rec1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "recipe"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rec1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Inputs </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Number of variables by role</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outcome:   1
+predictor: 4
+ID:        1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Operations </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Range scaling to [0,1] for: edad</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Square root transformation on: exp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Dummy variables from: all_factor_predictors()</code></pre>
+</div>
+</div>
+<p>Ahora vamos a “preparar” la receta.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pr1 <span class="ot">&lt;-</span> <span class="fu">prep</span>(rec1, <span class="at">training=</span>datos)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(pr1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "recipe"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pr1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Inputs </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Number of variables by role</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outcome:   1
+predictor: 4
+ID:        1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Training information </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Training data contained 10 data points and no incomplete rows.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Operations </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Range scaling to [0,1] for: edad | Trained</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Square root transformation on: exp | Trained</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Dummy variables from: educa depto | Trained</code></pre>
+</div>
+</div>
+<p>Ahora vamos a “hornear” o crear un conjunto de datos nuevos usando la información de la receta “preparada”.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(pr1, <span class="at">new_data=</span>datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 8
+     exp   edad     dni salario educa_Universitario educa_Posgrado depto_IT
+   &lt;dbl&gt;  &lt;dbl&gt;   &lt;int&gt;   &lt;dbl&gt;               &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+ 1  3.87 0.226  2875775    261.                   0              1        0
+ 2  3.32 0.774  7883051    311.                   0              0        1
+ 3  2.24 0.0645 4089769    206.                   0              1        0
+ 4  2    0.161  8830174    187.                   0              1        1
+ 5  3.61 1      9404672    351.                   1              0        0
+ 6  3.32 0.871   455564    328.                   0              0        0
+ 7  3.32 0      5281054    182.                   0              0        0
+ 8  3.16 0.0968 8924190    222.                   0              1        0
+ 9  2.83 0.645  5514350    295.                   0              0        1
+10  3.87 0.968  4566147    361.                   0              1        0
+# ℹ 1 more variable: depto_Finanzas &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="ejemplo-con-datos-faltantes-na" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="ejemplo-con-datos-faltantes-na"><span class="header-section-number">4.2</span> Ejemplo con datos faltantes NA</h2>
+<p>El paquete recipes tiene unas funciones para hacer imputación datos. Vamos a crear una copia de los datos y vamos a introducir manualmente unos NA’s para ver como hacer la imputación.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>datos2 <span class="ot">&lt;-</span> datos</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>datos2<span class="sc">$</span>exp[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]   <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>datos2<span class="sc">$</span>educa[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>datos2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   exp edad         educa    depto     dni  salario
+1   NA   40      Posgrado Finanzas 2875775 260.8674
+2   NA   57       Tecnico       IT 7883051 311.4860
+3    5   35          &lt;NA&gt;   Ventas 4089769 206.2979
+4    4   38          &lt;NA&gt;       IT 8830174 186.7268
+5   13   64 Universitario   Ventas 9404672 351.2821
+6   11   60       Tecnico   Ventas  455564 327.8655
+7   11   33       Tecnico Finanzas 5281054 181.7949
+8   10   36      Posgrado   Ventas 8924190 222.3455
+9    8   53       Tecnico       IT 5514350 295.0018
+10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+</div>
+</div>
+<p>Hay varias funciones para imputar datos faltantes, aquí vamos a usar dos de ellas, <code>step_impute_bag</code> y <code>step_impute_knn</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>rec2 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(salario <span class="sc">~</span> ., <span class="at">data =</span> datos2) <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_bag</span>(educa) <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_knn</span>(exp)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>pr2 <span class="ot">&lt;-</span> <span class="fu">prep</span>(rec2, <span class="at">training =</span> datos2)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(pr2, <span class="at">new_data =</span> datos2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 6
+     exp  edad educa         depto        dni salario
+   &lt;int&gt; &lt;int&gt; &lt;fct&gt;         &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt;
+ 1     9    40 Posgrado      Finanzas 2875775    261.
+ 2     9    57 Tecnico       IT       7883051    311.
+ 3     5    35 Posgrado      Ventas   4089769    206.
+ 4     4    38 Posgrado      IT       8830174    187.
+ 5    13    64 Universitario Ventas   9404672    351.
+ 6    11    60 Tecnico       Ventas    455564    328.
+ 7    11    33 Tecnico       Finanzas 5281054    182.
+ 8    10    36 Posgrado      Ventas   8924190    222.
+ 9     8    53 Tecnico       IT       5514350    295.
+10    15    63 Posgrado      Ventas   4566147    361.</code></pre>
+</div>
+</div>
+<p>Comparemos con la base de datos que NO tiene los NA’s.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   exp edad         educa    depto     dni  salario
+1   15   40      Posgrado Finanzas 2875775 260.8674
+2   11   57       Tecnico       IT 7883051 311.4860
+3    5   35      Posgrado   Ventas 4089769 206.2979
+4    4   38      Posgrado       IT 8830174 186.7268
+5   13   64 Universitario   Ventas 9404672 351.2821
+6   11   60       Tecnico   Ventas  455564 327.8655
+7   11   33       Tecnico Finanzas 5281054 181.7949
+8   10   36      Posgrado   Ventas 8924190 222.3455
+9    8   53       Tecnico       IT 5514350 295.0018
+10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+</div>
+</div>
+</section>
+<section id="ejemplo-con-términos-de-interacción" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="ejemplo-con-términos-de-interacción"><span class="header-section-number">4.3</span> Ejemplo con términos de interacción</h2>
+<p>Es posible incluir términos de interacción usando la función <code>step_interact()</code>. A continuación un ejemplo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>rec3 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(salario <span class="sc">~</span> ., <span class="at">data =</span> datos) <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(dni, <span class="at">new_role=</span><span class="st">"ID"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_factor_predictors</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_interact</span>(<span class="sc">~</span> edad<span class="sc">:</span><span class="fu">starts_with</span>(<span class="st">"depto_"</span>))</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>pr3 <span class="ot">&lt;-</span> <span class="fu">prep</span>(rec3, <span class="at">training =</span> datos)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(pr3, <span class="at">new_data =</span> datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 10
+     exp  edad     dni salario educa_Universitario educa_Posgrado depto_IT
+   &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;               &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+ 1    15    40 2875775    261.                   0              1        0
+ 2    11    57 7883051    311.                   0              0        1
+ 3     5    35 4089769    206.                   0              1        0
+ 4     4    38 8830174    187.                   0              1        1
+ 5    13    64 9404672    351.                   1              0        0
+ 6    11    60  455564    328.                   0              0        0
+ 7    11    33 5281054    182.                   0              0        0
+ 8    10    36 8924190    222.                   0              1        0
+ 9     8    53 5514350    295.                   0              0        1
+10    15    63 4566147    361.                   0              1        0
+# ℹ 3 more variables: depto_Finanzas &lt;dbl&gt;, edad_x_depto_IT &lt;dbl&gt;,
+#   edad_x_depto_Finanzas &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="rsample" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> rsample</h1>
+<p><img src="figs/rsample.png" class="img-fluid" width="100"></p>
+<p>El paquete <strong>rsample</strong> gestiona la creación de muestras de datos para validación y evaluación, facilitando particiones comunes como entrenamiento/prueba (<em>train/test splits</em>) y esquemas de validación cruzada (<em>cross-validation</em>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ver el siguiente video para profundizar.</p>
+</div>
+</div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/GtAX7Y2F4aY?si=tXBgJdSxoRzltVUN" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<section id="función-principal" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="función-principal">Función principal</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">initial_split</span>(data,          <span class="co"># A data frame  </span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">prop =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>,    <span class="co"># The proportion for train data</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">strata =</span> <span class="cn">NULL</span>, <span class="co"># A variable in data</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>              ...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>strata
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A variable in data (single character or name) used to conduct stratified sampling. When not NULL, each resample is created within the stratification variable. Numeric strata are binned into quartiles.</p>
+</div>
+</div>
+</section>
+<section id="ejemplo-sin-usar-strata" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="ejemplo-sin-usar-strata"><span class="header-section-number">5.1</span> Ejemplo sin usar <code>strata</code></h2>
+<p>Vamos a dividir nuestros datos en datos entrenamiento (60%) y datos de prueba (40%).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>split_inf <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(datos, <span class="at">prop =</span> <span class="fl">0.60</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>split_inf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Training/Testing/Total&gt;
+&lt;6/4/10&gt;</code></pre>
+</div>
+</div>
+<p>Usando la información de la partición que están en el objeto <code>split_inf</code>, podemos ahora si crear los dos conjuntos de datos nuevos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(split_inf)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_inf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ahora comparemos los datos originales y las particiones.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   exp edad         educa    depto     dni  salario
+1   15   40      Posgrado Finanzas 2875775 260.8674
+2   11   57       Tecnico       IT 7883051 311.4860
+3    5   35      Posgrado   Ventas 4089769 206.2979
+4    4   38      Posgrado       IT 8830174 186.7268
+5   13   64 Universitario   Ventas 9404672 351.2821
+6   11   60       Tecnico   Ventas  455564 327.8655
+7   11   33       Tecnico Finanzas 5281054 181.7949
+8   10   36      Posgrado   Ventas 8924190 222.3455
+9    8   53       Tecnico       IT 5514350 295.0018
+10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  exp edad         educa    depto     dni  salario
+1  13   64 Universitario   Ventas 9404672 351.2821
+2  10   36      Posgrado   Ventas 8924190 222.3455
+3  15   40      Posgrado Finanzas 2875775 260.8674
+4  11   57       Tecnico       IT 7883051 311.4860
+5  11   60       Tecnico   Ventas  455564 327.8655
+6  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  exp edad    educa    depto     dni  salario
+1   5   35 Posgrado   Ventas 4089769 206.2979
+2   4   38 Posgrado       IT 8830174 186.7268
+3  11   33  Tecnico Finanzas 5281054 181.7949
+4   8   53  Tecnico       IT 5514350 295.0018</code></pre>
+</div>
+</div>
+</section>
+<section id="ejemplo-usando-strata-con-variable-cualitativa" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="ejemplo-usando-strata-con-variable-cualitativa"><span class="header-section-number">5.2</span> Ejemplo usando <code>strata</code> con variable cualitativa</h2>
+<p>¿Qué sucede si usamos el argumento <code>strata</code>?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>split_inf <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(datos, <span class="at">strata =</span> educa, <span class="at">prop =</span> <span class="fl">0.60</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>split_inf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Training/Testing/Total&gt;
+&lt;5/5/10&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(split_inf)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_inf)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>train_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  exp edad    educa    depto     dni  salario
+1   4   38 Posgrado       IT 8830174 186.7268
+2  10   36 Posgrado   Ventas 8924190 222.3455
+3  15   63 Posgrado   Ventas 4566147 361.3607
+4  11   33  Tecnico Finanzas 5281054 181.7949
+5   8   53  Tecnico       IT 5514350 295.0018</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  exp edad         educa    depto     dni  salario
+1  15   40      Posgrado Finanzas 2875775 260.8674
+2  11   57       Tecnico       IT 7883051 311.4860
+3   5   35      Posgrado   Ventas 4089769 206.2979
+4  13   64 Universitario   Ventas 9404672 351.2821
+5  11   60       Tecnico   Ventas  455564 327.8655</code></pre>
+</div>
+</div>
+</section>
+<section id="ejemplo-usando-strata-con-variable-cuantitativa" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="ejemplo-usando-strata-con-variable-cuantitativa"><span class="header-section-number">5.3</span> Ejemplo usando <code>strata</code> con variable cuantitativa</h2>
+<p>¿Qué sucede si usamos el argumento <code>strata</code>?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>split_inf <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(datos, <span class="at">strata =</span> salario, <span class="at">prop =</span> <span class="fl">0.60</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The number of observations in each quantile is below the recommended threshold
+of 20.
+• Stratification will use 0 breaks instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Too little data to stratify.
+• Resampling will be unstratified.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>split_inf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Training/Testing/Total&gt;
+&lt;6/4/10&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(split_inf)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_inf)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>train_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  exp edad    educa    depto     dni  salario
+1  11   57  Tecnico       IT 7883051 311.4860
+2   5   35 Posgrado   Ventas 4089769 206.2979
+3   4   38 Posgrado       IT 8830174 186.7268
+4  11   33  Tecnico Finanzas 5281054 181.7949
+5   8   53  Tecnico       IT 5514350 295.0018
+6  15   63 Posgrado   Ventas 4566147 361.3607</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  exp edad         educa    depto     dni  salario
+1  15   40      Posgrado Finanzas 2875775 260.8674
+2  13   64 Universitario   Ventas 9404672 351.2821
+3  11   60       Tecnico   Ventas  455564 327.8655
+4  10   36      Posgrado   Ventas 8924190 222.3455</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="parsnip" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> parsnip</h1>
+<p><img src="figs/parsnip.png" class="img-fluid" width="100"></p>
+<p>El paquete <strong>parsnip</strong> unifica la interfaz de construcción de modelos de aprendizaje automático. En lugar de recordar la sintaxis específica de paquetes como <strong>stats</strong>, <strong>randomForest</strong> o <strong>xgboost</strong>, se declara el modelo, el motor (<em>engine</em>) y el modo de tarea.</p>
+<p>La estructura para especificar un modelo es la siguiente:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/esp_model_parsnip.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500"></p>
+</figure>
+</div>
+<p>¿Existe un listado de los modelos implementados en tidymodels?</p>
+<p>Sí, existe una herramienta interactiva con filtros para seleccionar el modelo de interés, la url a visitar es <a href="https://www.tidymodels.org/find/parsnip/" class="uri">https://www.tidymodels.org/find/parsnip/</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/app_parsnip.png" class="img-fluid figure-img" width="800"></p>
+<figcaption>Screenshot de la app parsnip</figcaption>
+</figure>
+</div>
+<section id="ejemplo-básico-1" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="ejemplo-básico-1"><span class="header-section-number">6.1</span> Ejemplo básico</h2>
+<p>Vamos a definir tres especificaciones de modelo: una regresión lineal, un modelo lineal generalizado (respuesta gamma y enlace log) y un random forest.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Regresion lineal</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>lm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo lineal generalizado</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>glm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>, <span class="at">family =</span> stats<span class="sc">::</span><span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Random forest</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> </span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rand_forest</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="workflows" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> workflows</h1>
+<p><img src="figs/workflows.png" class="img-fluid" width="100"></p>
+<p>El paquete <strong>workflows</strong> (o flujos de trabajo) sirve para automatizar, organizar y conectar tareas repetitivas en un orden específico.</p>
+<p>La estructura básica de un flujo de trabajo se muestra a continuación. El objeto <code>xx_spec</code> se reemplaza por una las especificaciones que se hayan definido antes: <code>lm_spec</code>, <code>glm_spec</code> o <code>rf_spec</code>. Dependiendo de la especificación usada, el nombre del flujo <code>xx_wflow</code> cambia. Por ejemplo, si usamos el la especifiación <code>glm_spec</code>, entonces el flujo lo podemos llamar <code>glm_wflow</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>xx_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec1) <span class="sc">|&gt;</span> </span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(xx_spec)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>xx_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(xx_wflow, <span class="at">data=</span>train_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="ejemplo-básico-2" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="ejemplo-básico-2"><span class="header-section-number">7.1</span> Ejemplo básico</h2>
+<p>Vamos a crear los tres flujos y a entrenar los tres modelos especificados anteriormente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vamos a aumentar la cantidad de datos para poder entrenar bien</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat</span>(<span class="at">n=</span><span class="dv">1000</span>)</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>split_inf <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(datos, <span class="at">strata =</span> salario, <span class="at">prop =</span> <span class="fl">0.60</span>)</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(split_inf)</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_inf)</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the workflow</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>lm_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec1) <span class="sc">|&gt;</span> </span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_spec)</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>glm_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec1) <span class="sc">|&gt;</span> </span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(glm_spec)</span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>rf_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec1) <span class="sc">|&gt;</span> </span>
+<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_spec)</span>
+<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a> lm_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(lm_wflow, <span class="at">data=</span>train_data)</span>
+<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(glm_wflow, <span class="at">data=</span>train_data)</span>
+<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a> rf_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(rf_wflow, <span class="at">data=</span>train_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ahora vamos a predecir la variable de interés usando train y usando test para uno de los modelos entrenados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">|&gt;</span> </span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> train_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 600 × 1
+   .pred
+   &lt;dbl&gt;
+ 1  180.
+ 2  155.
+ 3  167.
+ 4  191.
+ 5  179.
+ 6  189.
+ 7  148.
+ 8  161.
+ 9  160.
+10  171.
+# ℹ 590 more rows</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">|&gt;</span> </span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> test_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 400 × 1
+   .pred
+   &lt;dbl&gt;
+ 1  190.
+ 2  325.
+ 3  255.
+ 4  274.
+ 5  225.
+ 6  165.
+ 7  315.
+ 8  337.
+ 9  204.
+10  334.
+# ℹ 390 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="ejemplo-básico---estimando-con-nueva-información" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ejemplo-básico---estimando-con-nueva-información"><span class="header-section-number">7.2</span> Ejemplo básico - Estimando con nueva información</h2>
+<p>Ahora vamos a ver cómo estimar la variable de interés para unos datos nuevos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>nuevo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">3</span>),</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">edad=</span><span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">29</span>, <span class="dv">31</span>),</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">educa=</span><span class="fu">c</span>(<span class="st">"Tecnico"</span>, <span class="st">"Universitario"</span>, <span class="st">"Posgrado"</span>),</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">depto=</span><span class="fu">c</span>(<span class="st">"IT"</span>, <span class="st">"Finanzas"</span>, <span class="st">"Ventas"</span>),</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dni=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">|&gt;</span> </span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> nuevo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  .pred
+  &lt;dbl&gt;
+1  126.
+2  178.
+3  176.</code></pre>
+</div>
+</div>
+<p><img src="figs/pensando.png" class="img-fluid" width="50"></p>
+<p>¿Será posible resumir las predicciones anteriores en un número para evaluar si el modelo realiza bien su trabajo de predicción?</p>
+<p>Rta: sí.</p>
+<hr>
+</section>
+</section>
+<section id="yardstick" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> yardstick</h1>
+<p><img src="figs/yardstick.png" class="img-fluid" width="100"></p>
+<p>El paquete <strong>yardstick</strong> calcula las métricas de rendimiento para evaluar qué tan bien se desempeñan los modelos (por ejemplo: exactitud, sensibilidad, especificidad, AUC-ROC para clasificación, o RMSE, R-cuadrado para regresión).</p>
+<p>En la hoja de trucos del paquete podemos encontrar muchas métricas, algunas de ellas se muestran en la siguiente figura:</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/metricas_regre.png" class="img-fluid figure-img"></p>
+<figcaption>Algunas métricas regresión</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/metricas_clasi.png" class="img-fluid figure-img"></p>
+<figcaption>Algunas métricas clasificación</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<section id="ejemplo-básico-3" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="ejemplo-básico-3"><span class="header-section-number">8.1</span> Ejemplo básico</h2>
+<p>Calcular las métricas Rsq y MSE para las predicciones obtenidas con los datos de entrenamiento y usando los modelos entrenados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>lm_results <span class="ot">&lt;-</span> </span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  lm_fit <span class="sc">|&gt;</span> </span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> train_data) <span class="sc">|&gt;</span> </span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">truth =</span> train_data<span class="sc">$</span>salario)</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>my_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rsq, mse)</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>lm_results <span class="sc">|&gt;</span> </span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_metrics</span>(<span class="at">truth =</span> truth, <span class="at">estimate =</span> .pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.978
+2 mse     standard      95.3  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>glm_results <span class="ot">&lt;-</span> </span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  glm_fit <span class="sc">|&gt;</span> </span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> train_data) <span class="sc">|&gt;</span> </span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">truth =</span> train_data<span class="sc">$</span>salario)</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>my_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rsq, mse)</span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>glm_results <span class="sc">|&gt;</span> </span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_metrics</span>(<span class="at">truth =</span> truth, <span class="at">estimate =</span> .pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.963
+2 mse     standard     167.   </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>rf_results <span class="ot">&lt;-</span> </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  rf_fit <span class="sc">|&gt;</span> </span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> train_data) <span class="sc">|&gt;</span> </span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">truth =</span> train_data<span class="sc">$</span>salario)</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>my_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rsq, mse)</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>rf_results <span class="sc">|&gt;</span> </span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_metrics</span>(<span class="at">truth =</span> truth, <span class="at">estimate =</span> .pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.974
+2 mse     standard     241.   </code></pre>
+</div>
+</div>
+<p><img src="figs/pensando.png" class="img-fluid" width="50"></p>
+<p>¿Será que podemos confiar en estos resultados puntuales o podemos hacer algo adicional?</p>
+<hr>
+</section>
+</section>
+<section id="remuestreo---validación-cruzada" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Remuestreo - validación cruzada</h1>
+<p><img src="figs/recipes.jpeg" class="img-fluid" width="100"> <img src="figs/tune.png" class="img-fluid" width="100"></p>
+<p>Los métodos de remuestreo permiten evaluar de forma fiable el rendimiento de un modelo y ajustar sus hiperparámetros utilizando repetidamente subconjuntos de los datos de entrenamiento para evitar el sobreajuste.</p>
+<p>A continuación se muestran algunos de los tipos de remuestro que se pueden utilizar.</p>
+<p><img src="figs/vfold_cv.png" class="img-fluid quarto-figure quarto-figure-center" width="700"> <img src="figs/loo_cv.png" class="img-fluid quarto-figure quarto-figure-center" width="700"> <img src="figs/mc_cv.png" class="img-fluid quarto-figure quarto-figure-center" width="700"> <img src="figs/bootstraps.png" class="img-fluid quarto-figure quarto-figure-center" width="700"></p>
+<section id="ejemplo-básico-4" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="ejemplo-básico-4"><span class="header-section-number">9.1</span> Ejemplo básico</h2>
+<p>Vamos a explorar el uso de la función <code>vfold_cv</code> sin y con el argumento <code>strata</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sin usar strata</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>) <span class="co"># Important!</span></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="at">data =</span> train_data, <span class="at">v =</span> <span class="dv">10</span>)</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>folds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#  10-fold cross-validation 
+# A tibble: 10 × 2
+   splits           id    
+   &lt;list&gt;           &lt;chr&gt; 
+ 1 &lt;split [540/60]&gt; Fold01
+ 2 &lt;split [540/60]&gt; Fold02
+ 3 &lt;split [540/60]&gt; Fold03
+ 4 &lt;split [540/60]&gt; Fold04
+ 5 &lt;split [540/60]&gt; Fold05
+ 6 &lt;split [540/60]&gt; Fold06
+ 7 &lt;split [540/60]&gt; Fold07
+ 8 &lt;split [540/60]&gt; Fold08
+ 9 &lt;split [540/60]&gt; Fold09
+10 &lt;split [540/60]&gt; Fold10</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando strata = variable respuesta</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>) <span class="co"># Important!</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="at">data =</span> train_data, <span class="at">v =</span> <span class="dv">10</span>, </span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">strata =</span> salario, <span class="at">breaks =</span> <span class="dv">4</span>)</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>folds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#  10-fold cross-validation using stratification 
+# A tibble: 10 × 2
+   splits           id    
+   &lt;list&gt;           &lt;chr&gt; 
+ 1 &lt;split [540/60]&gt; Fold01
+ 2 &lt;split [540/60]&gt; Fold02
+ 3 &lt;split [540/60]&gt; Fold03
+ 4 &lt;split [540/60]&gt; Fold04
+ 5 &lt;split [540/60]&gt; Fold05
+ 6 &lt;split [540/60]&gt; Fold06
+ 7 &lt;split [540/60]&gt; Fold07
+ 8 &lt;split [540/60]&gt; Fold08
+ 9 &lt;split [540/60]&gt; Fold09
+10 &lt;split [540/60]&gt; Fold10</code></pre>
+</div>
+</div>
+<p><img src="figs/pensando.png" class="img-fluid" width="50"></p>
+<p>¿Se puede usar <code>fit()</code> para entrenar un modelo cuando tenemos cross-validation?</p>
+<p>Rta: no.</p>
+<p>La función <code>fit_resamples()</code> del paquete <strong>tune</strong> es la función que nos ayudará a ajustar modelos con remuestreo. Los argumentos más importantes de la función son:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/fit_resamples.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="700"></p>
+</figure>
+</div>
+</section>
+<section id="ejemplo-básico-5" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="ejemplo-básico-5"><span class="header-section-number">9.2</span> Ejemplo básico</h2>
+<p>Vamos a crear una partición con <code>vfold_cv()</code> y luego vamos a utilizar <code>fit_resamples()</code> para el primer modelo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>lm_results <span class="ot">&lt;-</span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>  lm_wflow <span class="sc">|&gt;</span> </span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> folds,</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">metrics =</span> <span class="fu">metric_set</span>(rsq, mse))</span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>lm_results <span class="sc">|&gt;</span> </span>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>(<span class="at">summarize =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 5
+   id     .metric .estimator .estimate .config        
+   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;          
+ 1 Fold01 rsq     standard       0.969 pre0_mod0_post0
+ 2 Fold01 mse     standard     123.    pre0_mod0_post0
+ 3 Fold02 rsq     standard       0.983 pre0_mod0_post0
+ 4 Fold02 mse     standard      70.1   pre0_mod0_post0
+ 5 Fold03 rsq     standard       0.982 pre0_mod0_post0
+ 6 Fold03 mse     standard      80.6   pre0_mod0_post0
+ 7 Fold04 rsq     standard       0.982 pre0_mod0_post0
+ 8 Fold04 mse     standard      83.9   pre0_mod0_post0
+ 9 Fold05 rsq     standard       0.976 pre0_mod0_post0
+10 Fold05 mse     standard      96.4   pre0_mod0_post0
+11 Fold06 rsq     standard       0.977 pre0_mod0_post0
+12 Fold06 mse     standard     116.    pre0_mod0_post0
+13 Fold07 rsq     standard       0.977 pre0_mod0_post0
+14 Fold07 mse     standard     105.    pre0_mod0_post0
+15 Fold08 rsq     standard       0.972 pre0_mod0_post0
+16 Fold08 mse     standard     115.    pre0_mod0_post0
+17 Fold09 rsq     standard       0.981 pre0_mod0_post0
+18 Fold09 mse     standard      89.9   pre0_mod0_post0
+19 Fold10 rsq     standard       0.980 pre0_mod0_post0
+20 Fold10 mse     standard      95.3   pre0_mod0_post0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>lm_results <span class="sc">|&gt;</span> </span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>(<span class="at">summarize =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  .metric .estimator   mean     n std_err .config        
+  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;          
+1 mse     standard   97.5      10 5.41    pre0_mod0_post0
+2 rsq     standard    0.978    10 0.00150 pre0_mod0_post0</code></pre>
+</div>
+</div>
+<p>Ahora vamos a realizar lo anterior para los otros dos modelos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>glm_results <span class="ot">&lt;-</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>  glm_wflow <span class="sc">|&gt;</span> </span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> folds,</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">metrics =</span> <span class="fu">metric_set</span>(rsq, mse))</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>glm_results <span class="sc">|&gt;</span> </span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>(<span class="at">summarize =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  .metric .estimator    mean     n  std_err .config        
+  &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;          
+1 mse     standard   172.       10 11.6     pre0_mod0_post0
+2 rsq     standard     0.963    10  0.00197 pre0_mod0_post0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>rf_results <span class="ot">&lt;-</span></span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  rf_wflow <span class="sc">|&gt;</span> </span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> folds,</span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">metrics =</span> <span class="fu">metric_set</span>(rsq, mse))</span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>rf_results <span class="sc">|&gt;</span> </span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>(<span class="at">summarize =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  .metric .estimator    mean     n  std_err .config        
+  &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;          
+1 mse     standard   333.       10 31.3     pre0_mod0_post0
+2 rsq     standard     0.956    10  0.00368 pre0_mod0_post0</code></pre>
+</div>
+</div>
+<p><img src="figs/pensando.png" class="img-fluid" width="50"></p>
+<p>Usando los resultados promedios de las métricas anteriores, ¿cuál modelo se perfila como el mejor modelo?</p>
+<p>Rta: el primer modelo porque tiene menor MSE y mayor Rsq.</p>
+<hr>
+</section>
+</section>
+<section id="tune" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> tune</h1>
+<p><img src="figs/tune.png" class="img-fluid" width="100"></p>
+<p>El paquete <strong>tune</strong> permite optimizar los hiperparámetros de los modelos y realizar validación cruzada para encontrar la mejor configuración que evite el sobreajuste (<em>overfitting</em>).</p>
+<p>La función <code>tune_grid()</code> del paquete <strong>tune</strong> permite evaluar sistemáticamente combinaciones de hiperparámetros de un modelo o flujo de trabajo mediante remuestreo, facilitando la identificación de la configuración con mejor rendimiento predictivo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/tune_grid.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="700"></p>
+</figure>
+</div>
+<section id="ejemplo-básico-6" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="ejemplo-básico-6"><span class="header-section-number">10.1</span> Ejemplo básico</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>rf_tuner <span class="ot">&lt;-</span> </span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">trees =</span> <span class="dv">50</span></span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>              ) <span class="sc">|&gt;</span> </span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb103-7"><a href="#cb103-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb103-8"><a href="#cb103-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-9"><a href="#cb103-9" aria-hidden="true" tabindex="-1"></a>rf_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb103-10"><a href="#cb103-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec1) <span class="sc">|&gt;</span> </span>
+<span id="cb103-11"><a href="#cb103-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_tuner)</span>
+<span id="cb103-12"><a href="#cb103-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-13"><a href="#cb103-13" aria-hidden="true" tabindex="-1"></a>rf_tune_results <span class="ot">&lt;-</span></span>
+<span id="cb103-14"><a href="#cb103-14" aria-hidden="true" tabindex="-1"></a>  rf_wflow <span class="sc">|&gt;</span></span>
+<span id="cb103-15"><a href="#cb103-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(<span class="at">resamples =</span> folds,</span>
+<span id="cb103-16"><a href="#cb103-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">metrics =</span> <span class="fu">metric_set</span>(rsq, mse))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>i Creating pre-processing data to finalize 1 unknown parameter: "mtry"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(rf_tune_results, <span class="at">metric =</span> <span class="st">"mse"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 8
+   mtry min_n .metric .estimator  mean     n std_err .config         
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;           
+1     5    10 mse     standard    133.    10    7.80 pre0_mod09_post0
+2     6    27 mse     standard    138.    10    9.28 pre0_mod10_post0
+3     4    23 mse     standard    139.    10   11.4  pre0_mod07_post0
+4     3     6 mse     standard    156.    10   17.1  pre0_mod05_post0
+5     4    40 mse     standard    161.    10   15.6  pre0_mod08_post0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(rf_tune_results, <span class="at">metric =</span> <span class="st">"rsq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 8
+   mtry min_n .metric .estimator  mean     n std_err .config         
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;           
+1     5    10 rsq     standard   0.970    10 0.00215 pre0_mod09_post0
+2     4    23 rsq     standard   0.969    10 0.00238 pre0_mod07_post0
+3     6    27 rsq     standard   0.969    10 0.00244 pre0_mod10_post0
+4     3     6 rsq     standard   0.967    10 0.00319 pre0_mod05_post0
+5     4    40 rsq     standard   0.965    10 0.00304 pre0_mod08_post0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>best_parameters <span class="ot">&lt;-</span> <span class="fu">select_best</span>(rf_tune_results, <span class="at">metric =</span> <span class="st">"mse"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>.config)</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>best_parameters</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+   mtry min_n
+  &lt;int&gt; &lt;int&gt;
+1     5    10</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>best_workflow <span class="ot">&lt;-</span> rf_wflow <span class="sc">|&gt;</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_parameters) <span class="sc">|&gt;</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(train_data)</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">actual =</span> test_data<span class="sc">$</span>salario,</span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">predicted =</span> <span class="fu">predict</span>(best_workflow, <span class="at">new_data =</span> test_data)<span class="sc">$</span>.pred</span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> actual, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb111-11"><a href="#cb111-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb111-12"><a href="#cb111-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_tidymodels_latinR_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejemplo-integrador" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Ejemplo integrador</h1>
+<p>En esta sección unificamos todos los paquetes anteriores en un flujo de trabajo formal (<em>workflow</em>) completo de principio a fin, aplicando preprocesamiento, entrenamiento y evaluación en una sola tubería coherente.</p>
+<hr>
+</section>
+<section id="reto" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Reto</h1>
+<p>¡Es hora de poner en práctica lo aprendido!</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
