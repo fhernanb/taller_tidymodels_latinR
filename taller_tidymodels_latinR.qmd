@@ -1,5 +1,8 @@
 ---
 title: "Construyendo modelos de Machine Learning con tidymodels"
+author:
+  - name: "Freddy Hernandez"
+    url: "https://fhernanb.github.io"
 format: 
   html:
     toc: true
@@ -9,10 +12,11 @@ format:
 
 ![](figs/intro.gif){width="700" fig-align="center"}
 
-Escanea el QR para consultar este documento:
+Para consultar este material escanea el QR o visita este enlace:
+
+https://freddy-hb-tidymodels-latinr.share.connect.posit.cloud/
 
 ![](figs/qr.png){width="150" fig-align="center"}
-
 
 # Ecosistema tidymodels
 
@@ -22,10 +26,10 @@ Bienvenidos al taller práctico sobre **tidymodels**, un paquete en R diseñado 
 
 ## Ventajas de tidymodels
 
-- **Sintaxis unificada:** Proporciona una interfaz consistente (**parsnip**) para entrenar cientos de modelos de Machine Learning (regresión lineal, árboles de decisión, random forest, XGBoost, etc.) sin tener que aprender la sintaxis nativa de cada paquete específico.
-- **Diseño modular:** Cada tarea del flujo de trabajo (dividir datos, limpiar, entrenar, evaluar) cuenta con un paquete especializado y cohesivo.
-- **Integración con Tidyverse:** Se integra perfectamente con pipes (`|>` o `|>`), estructuras de datos tipo `tibble` y funciones de manipulación de datos habituales.
-- **Prevención de fuga de datos:** Gracias al uso de **recipes** y **workflows**, el preprocesamiento de datos se calcula únicamente sobre los conjuntos de entrenamiento, aplicando las mismas transformaciones de forma segura en validación o prueba.
+- **Sintaxis unificada:** proporciona una interfaz consistente (**parsnip**) para entrenar cientos de modelos de Machine Learning (regresión lineal, árboles de decisión, random forest, XGBoost, etc.) sin tener que aprender la sintaxis nativa de cada paquete específico.
+- **Diseño modular:**cada tarea del flujo de trabajo (dividir datos, limpiar, entrenar, evaluar) cuenta con un paquete especializado y cohesivo.
+- **Integración con Tidyverse:** se integra perfectamente con pipes (`|>` o `|>`), estructuras de datos tipo `tibble` y funciones de manipulación de datos habituales.
+- **Prevención de fuga de datos:** gracias al uso de **recipes** y **workflows**, el preprocesamiento de datos se calcula únicamente sobre los conjuntos de entrenamiento, aplicando las mismas transformaciones de forma segura en validación o prueba.
 
 ![](figs/utilidad_tidymodels.jpeg){width="600" fig-align="center"}
 
@@ -38,8 +42,7 @@ rf_1 <- randomForest(
   y ~ ., 
   data = dat, 
   mtry = 10, 
-  ntree = 2000, 
-  importance = TRUE
+  ntree = 2000
 )
 
 # From ranger
@@ -47,8 +50,7 @@ rf_2 <- ranger(
   y ~ ., 
   data = dat, 
   mtry = 10, 
-  num.trees = 2000, 
-  importance = "impurity"
+  num.trees = 2000
 )
 
 # From sparklyr
@@ -66,7 +68,7 @@ Tener que memorizar tantos nombres de parámetros y diferentes formas de ingresa
 
 ![](figs/brain-explosion.gif){width="300" fig-align="center"}
 
-## Material para aprender
+## Material para aprender sobre tidymodels
 
 Existe un extenso material en la web que se puede utilizar para aprender sobre tidymodels.
 
@@ -82,6 +84,8 @@ El libro se puede consultar en <https://www.tmwr.org>.
 
 ![](figs/book_tdr.png){width="400" fig-align="center"}
 
+<br><br>
+
 ### Libro "Machine Learning with Tidymodels" {.unnumbered}
 
 El libro se puede consultar en <https://gedeck.github.io/machine-learning-with-tidymodels/>.
@@ -92,7 +96,7 @@ El libro se puede consultar en <https://gedeck.github.io/machine-learning-with-t
 
 {{< video https://www.youtube.com/embed/fRj8dr-aSsU?si=ZSnXfNL2IYD2nCiG >}}
 
-## Equipo desarrollador
+## Equipo desarrollador de tidymodels
 
 El equipo de trabajo de tidymodels tiene a varios colaboradores que se pueden consultar en [este enlace](https://www.tidymodels.org/about/).
 
@@ -126,18 +130,21 @@ En el siguiente enlace se pueden consultar todas las hojas de trucos.
 
 ------------------------------------------------------------------------
 
-# Estructura del taller
+# Estructura del tutorial
 
-El taller tendrá las siguientes actividades:
+El tutorial tendrá las siguientes actividades:
 
-- Mirar y analizar códigos para realizar una tarea.
-- Completar códigos para realizar una tarea.
+1. 👀 🧠 Mirar y analizar  códigos para realizar una tarea.
+2. ✍🏽 Completar códigos para realizar una tarea. El documento de word con las preguntas y códigos está disponible en este [enlace](https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx). Para descargar el documento de word debe dar click en las palabras "View raw".
+3. 🧨 Las respuestas a las preguntas del documento de word están en este [enlace](https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/solucion_taller_penguins.R). Revise la solución solo cuando usted ya tenga una respuesta.
+
+![](figs/foto_taller.png){width="400" fig-align="center"}
 
 ![](figs/person_programming.gif){width="400" fig-align="center"}
 
 ------------------------------------------------------------------------
 
-# Datos de ejemplo (toy data)
+# Datos de ejemplo (*toy data*)
 
 En esta sección vamos a mostrar los datos que vamos a utilizar como ejemplo. La idea de estos datos sencillos y con pocas observaciones y variables, es que podamos ver la utilidad de las funciones sin que los datos se roben el protagonismo.
 
@@ -145,13 +152,11 @@ En esta sección vamos a mostrar los datos que vamos a utilizar como ejemplo. La
 gen_dat <- function(n) {
   dni <- round(10000000 * runif(n=n), digits=6)
   dni <- as.integer(dni)
-  exp <- rpois(n, lambda=10)         # Cuanti 1 (Predictora)
-  edad <- sample(22:65, n, replace = TRUE)   # Cuanti 2 (Predictora)
-  educa <- factor(sample(c("Posgrado", "Universitario", "Tecnico"), 
+  exp <- rpois(n, lambda=10)                    # Cuanti 1 (Predictora)
+  edad <- sample(22:65, n, replace = TRUE)      # Cuanti 2 (Predictora)
+  educa <- factor(sample(c("Posgrado", "Univ", "Tecnico"), 
                         n, replace = TRUE),
-                 levels=c("Tecnico", 
-                          "Universitario", 
-                          "Posgrado")) # Cuali 1 (Predictora)
+                 levels=c("Tecnico", "Univ", "Posgrado")) # Cuali 1 (Predictora)
   depto <- factor(sample(c("Ventas", "IT", "Finanzas"), 
                         n, replace = TRUE),
                   levels=c("Ventas", "IT", "Finanzas")) # Cuali 2 (Predictora)
@@ -160,13 +165,14 @@ gen_dat <- function(n) {
   media <- 3 + 5 * edad + 2 * exp + 
     3 * (depto == "IT") + 
     4 * (depto == "Finanzas") +
-    10 * (educa == "Universitario") + 
+    10 * (educa == "Univ") + 
     15 * (educa == "Posgrado")
-  salario <- rnorm(n, mean = media, sd = 10)  # (Variable Respuesta de interés)
   
-  datos <- data.frame(exp=exp, edad=edad, 
-                      educa=educa, depto=depto, 
-                      dni=dni, salario=salario)
+  salario <- rnorm(n = n, mean = media, sd = 10)  # Variable Respuesta
+  
+  datos <- data.frame(exp = exp, edad = edad, 
+                      educa = educa, depto = depto, 
+                      dni = dni, salario = salario)
 }
 
 set.seed(123)
@@ -196,11 +202,8 @@ Crear un modelo de regresión (estadístico o ML) para predecir el salario en fu
 
 El paquete **recipes** se utiliza para el preprocesamiento y *feature engineering*. Permite definir una serie de pasos secuenciales (normalizar variables numéricas, imputar valores faltantes, crear variables dummy, etc.) antes de crear un modelo estadístico o un modelo de machine learning.
 
-Recomendación: ver el siguiente video para profundizar.
-
 ::: callout-tip
 ## Tip
-
 Ver el siguiente video para profundizar.
 :::
 
@@ -214,7 +217,8 @@ La función `recipe()` nos permite crear recetas para un modelo de interés, la 
 
 ![](figs/recipe_fun.png){width="500" fig-align="center"}
 
-Existen muchas funciones en recipes que hacen transformaciones sobre las variables, algunas de ellas son:
+Para completar una receta es necesario procesar los ingredientes, y es ahí donde 
+las funciones `step_algo` de **recipes** que hacen transformaciones sobre las variables, algunas de ellas son:
 
 - `step_range(min=0, max=1)`: convierte al intervalo \[0, 1\].
 - `step_center()`: convierte la variable para que tenga media 0.
@@ -313,8 +317,6 @@ pr3 <- prep(rec3, training = datos)
 bake(pr3, new_data = datos)
 ```
 
-
-
 ------------------------------------------------------------------------
 
 # rsample
@@ -397,6 +399,14 @@ train_data
 test_data
 ```
 
+<br><br>
+
+![](figs/su_turno.jpg){width="300"}
+
+Realice los ejercicios 1, 2 y 3 del [taller de word](https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx).
+
+<br><br>
+
 ------------------------------------------------------------------------
 
 # parsnip
@@ -437,6 +447,14 @@ rf_spec <-
   set_mode("regression")
 ```
 
+<br><br>
+
+![](figs/su_turno.jpg){width="300"}
+
+Realice el ejercicio 4 del [taller de word](https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx).
+
+<br><br>
+
 ------------------------------------------------------------------------
 
 # workflows
@@ -460,7 +478,7 @@ xx_fit <- fit(xx_wflow, data=train_data)
 
 ## Ejemplo básico
 
-Vamos a crear los tres flujos y a entrenar los tres modelos especificados anteriormente. 
+Vamos a crear los tres flujos y a entrenar los tres modelos especificados anteriormente.
 
 ```{r}
 # Vamos a aumentar la cantidad de datos para poder entrenar bien
@@ -499,7 +517,6 @@ lm_fit |>
   predict(new_data = test_data)
 ```
 
-
 ## Ejemplo básico - Estimando con nueva información
 
 Ahora vamos a ver cómo estimar la variable de interés para unos datos nuevos.
@@ -507,7 +524,7 @@ Ahora vamos a ver cómo estimar la variable de interés para unos datos nuevos.
 ```{r}
 nuevo <- data.frame(exp=c(5, 8, 3),
                     edad=c(20, 29, 31),
-                    educa=c("Tecnico", "Universitario", "Posgrado"),
+                    educa=c("Tecnico", "Univ", "Posgrado"),
                     depto=c("IT", "Finanzas", "Ventas"),
                     dni=c(1, 2, 3))
 lm_fit |> 
@@ -520,6 +537,14 @@ lm_fit |>
 
 Rta: sí.
 
+<br><br>
+
+![](figs/su_turno.jpg){width="300"}
+
+Realice el ejercicio 5 del [taller de word](https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx).
+
+<br><br>
+
 ------------------------------------------------------------------------
 
 # yardstick
@@ -530,13 +555,14 @@ El paquete **yardstick** calcula las métricas de rendimiento para evaluar qué 
 
 En la hoja de trucos del paquete podemos encontrar muchas métricas, algunas de ellas se muestran en la siguiente figura:
 
-::: {layout-ncol=2}
+::: {layout-ncol="2"}
 ![Algunas métricas regresión](figs/metricas_regre.png)
 
 ![Algunas métricas clasificación](figs/metricas_clasi.png)
 :::
 
 ## Ejemplo básico
+
 Calcular las métricas Rsq y MSE para las predicciones obtenidas con los datos de entrenamiento y usando los modelos entrenados.
 
 ```{r}
@@ -575,29 +601,24 @@ rf_results |>
   my_metrics(truth = truth, estimate = .pred)
 ```
 
-
 ![](figs/pensando.png){width="50"}
 
 ¿Será que podemos confiar en estos resultados puntuales o podemos hacer algo adicional?
-
 
 ------------------------------------------------------------------------
 
 # Remuestreo - validación cruzada
 
-![](figs/recipes.jpeg){width="100"}
-![](figs/tune.png){width="100"}
+![](figs/recipes.jpeg){width="100"} ![](figs/tune.png){width="100"}
 
 Los métodos de remuestreo permiten evaluar de forma fiable el rendimiento de un modelo y ajustar sus hiperparámetros utilizando repetidamente subconjuntos de los datos de entrenamiento para evitar el sobreajuste.
 
 A continuación se muestran algunos de los tipos de remuestro que se pueden utilizar.
 
-![](figs/vfold_cv.png){width="700" fig-align="center"}
-![](figs/loo_cv.png){width="700" fig-align="center"}
-![](figs/mc_cv.png){width="700" fig-align="center"}
-![](figs/bootstraps.png){width="700" fig-align="center"}
+![](figs/vfold_cv.png){width="700" fig-align="center"} ![](figs/loo_cv.png){width="700" fig-align="center"} ![](figs/mc_cv.png){width="700" fig-align="center"} ![](figs/bootstraps.png){width="700" fig-align="center"}
 
 ## Ejemplo básico
+
 Vamos a explorar el uso de la función `vfold_cv` sin y con el argumento `strata`.
 
 ```{r}
@@ -626,6 +647,7 @@ La función `fit_resamples()` del paquete **tune** es la función que nos ayudar
 ![](figs/fit_resamples.png){width="700" fig-align="center"}
 
 ## Ejemplo básico
+
 Vamos a crear una partición con `vfold_cv()` y luego vamos a utilizar `fit_resamples()` para el primer modelo.
 
 ```{r}
@@ -723,17 +745,19 @@ ggplot(df, aes(x = actual, y = predicted)) +
   geom_abline()
 ```
 
+<br><br>
+
+![](figs/su_turno.jpg){width="300"}
+
+Realice el ejercicio 6 y 7 del [taller de word](https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx).
+
+<br><br>
 
 ------------------------------------------------------------------------
 
-# Ejemplo integrador
+# Fin
 
-En esta sección unificamos todos los paquetes anteriores en un flujo de trabajo formal (*workflow*) completo de principio a fin, aplicando preprocesamiento, entrenamiento y evaluación en una sola tubería coherente.
+![](figs/fin.jpg){width="800" fig-align="center"}
 
-------------------------------------------------------------------------
-
-# Reto
-
-¡Es hora de poner en práctica lo aprendido!
-
+![](figs/gracias.jpg){width="1000" fig-align="center"}
 

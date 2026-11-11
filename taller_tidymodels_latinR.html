@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Freddy Hernandez">
 
 <title>Construyendo modelos de Machine Learning con tidymodels</title>
 <style>
@@ -119,19 +120,19 @@ window.Quarto = {
   <li><a href="#ecosistema-tidymodels" id="toc-ecosistema-tidymodels" class="nav-link active" data-scroll-target="#ecosistema-tidymodels"><span class="header-section-number">1</span> Ecosistema tidymodels</a>
   <ul class="collapse">
   <li><a href="#ventajas-de-tidymodels" id="toc-ventajas-de-tidymodels" class="nav-link" data-scroll-target="#ventajas-de-tidymodels"><span class="header-section-number">1.1</span> Ventajas de tidymodels</a></li>
-  <li><a href="#material-para-aprender" id="toc-material-para-aprender" class="nav-link" data-scroll-target="#material-para-aprender"><span class="header-section-number">1.2</span> Material para aprender</a>
+  <li><a href="#material-para-aprender-sobre-tidymodels" id="toc-material-para-aprender-sobre-tidymodels" class="nav-link" data-scroll-target="#material-para-aprender-sobre-tidymodels"><span class="header-section-number">1.2</span> Material para aprender sobre tidymodels</a>
   <ul class="collapse">
   <li><a href="#página-web-httpswww.tidymodels.org" id="toc-página-web-httpswww.tidymodels.org" class="nav-link" data-scroll-target="#página-web-httpswww.tidymodels.org">Página web https://www.tidymodels.org</a></li>
   <li><a href="#libro-tidy-modeling-with-r" id="toc-libro-tidy-modeling-with-r" class="nav-link" data-scroll-target="#libro-tidy-modeling-with-r">Libro “Tidy Modeling with R”</a></li>
   <li><a href="#libro-machine-learning-with-tidymodels" id="toc-libro-machine-learning-with-tidymodels" class="nav-link" data-scroll-target="#libro-machine-learning-with-tidymodels">Libro “Machine Learning with Tidymodels”</a></li>
   <li><a href="#video-tidymodels-en-39-minutos" id="toc-video-tidymodels-en-39-minutos" class="nav-link" data-scroll-target="#video-tidymodels-en-39-minutos">Video tidymodels en 39 minutos</a></li>
   </ul></li>
-  <li><a href="#equipo-desarrollador" id="toc-equipo-desarrollador" class="nav-link" data-scroll-target="#equipo-desarrollador"><span class="header-section-number">1.3</span> Equipo desarrollador</a></li>
+  <li><a href="#equipo-desarrollador-de-tidymodels" id="toc-equipo-desarrollador-de-tidymodels" class="nav-link" data-scroll-target="#equipo-desarrollador-de-tidymodels"><span class="header-section-number">1.3</span> Equipo desarrollador de tidymodels</a></li>
   <li><a href="#instalación-y-carga" id="toc-instalación-y-carga" class="nav-link" data-scroll-target="#instalación-y-carga"><span class="header-section-number">1.4</span> Instalación y carga</a></li>
   <li><a href="#cheat-sheets" id="toc-cheat-sheets" class="nav-link" data-scroll-target="#cheat-sheets"><span class="header-section-number">1.5</span> Cheat sheets</a></li>
   </ul></li>
-  <li><a href="#estructura-del-taller" id="toc-estructura-del-taller" class="nav-link" data-scroll-target="#estructura-del-taller"><span class="header-section-number">2</span> Estructura del taller</a></li>
-  <li><a href="#datos-de-ejemplo-toy-data" id="toc-datos-de-ejemplo-toy-data" class="nav-link" data-scroll-target="#datos-de-ejemplo-toy-data"><span class="header-section-number">3</span> Datos de ejemplo (toy data)</a></li>
+  <li><a href="#estructura-del-tutorial" id="toc-estructura-del-tutorial" class="nav-link" data-scroll-target="#estructura-del-tutorial"><span class="header-section-number">2</span> Estructura del tutorial</a></li>
+  <li><a href="#datos-de-ejemplo-toy-data" id="toc-datos-de-ejemplo-toy-data" class="nav-link" data-scroll-target="#datos-de-ejemplo-toy-data"><span class="header-section-number">3</span> Datos de ejemplo (<em>toy data</em>)</a></li>
   <li><a href="#recipes" id="toc-recipes" class="nav-link" data-scroll-target="#recipes"><span class="header-section-number">4</span> recipes</a>
   <ul class="collapse">
   <li><a href="#ejemplo-básico" id="toc-ejemplo-básico" class="nav-link" data-scroll-target="#ejemplo-básico"><span class="header-section-number">4.1</span> Ejemplo básico</a></li>
@@ -167,8 +168,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#ejemplo-básico-6" id="toc-ejemplo-básico-6" class="nav-link" data-scroll-target="#ejemplo-básico-6"><span class="header-section-number">10.1</span> Ejemplo básico</a></li>
   </ul></li>
-  <li><a href="#ejemplo-integrador" id="toc-ejemplo-integrador" class="nav-link" data-scroll-target="#ejemplo-integrador"><span class="header-section-number">11</span> Ejemplo integrador</a></li>
-  <li><a href="#reto" id="toc-reto" class="nav-link" data-scroll-target="#reto"><span class="header-section-number">12</span> Reto</a></li>
+  <li><a href="#fin" id="toc-fin" class="nav-link" data-scroll-target="#fin"><span class="header-section-number">11</span> Fin</a></li>
   </ul>
 </nav>
 </div>
@@ -183,6 +183,12 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://fhernanb.github.io">Freddy Hernandez</a> </p>
+          </div>
+  </div>
     
   
     
@@ -198,7 +204,8 @@ window.Quarto = {
 <p><img src="figs/intro.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="700"></p>
 </figure>
 </div>
-<p>Escanea el QR para consultar este documento:</p>
+<p>Para consultar este material escanea el QR o visita este enlace:</p>
+<p>https://freddy-hb-tidymodels-latinr.share.connect.posit.cloud/</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figs/qr.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="150"></p>
@@ -216,10 +223,10 @@ window.Quarto = {
 <section id="ventajas-de-tidymodels" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="ventajas-de-tidymodels"><span class="header-section-number">1.1</span> Ventajas de tidymodels</h2>
 <ul>
-<li><strong>Sintaxis unificada:</strong> Proporciona una interfaz consistente (<strong>parsnip</strong>) para entrenar cientos de modelos de Machine Learning (regresión lineal, árboles de decisión, random forest, XGBoost, etc.) sin tener que aprender la sintaxis nativa de cada paquete específico.</li>
-<li><strong>Diseño modular:</strong> Cada tarea del flujo de trabajo (dividir datos, limpiar, entrenar, evaluar) cuenta con un paquete especializado y cohesivo.</li>
-<li><strong>Integración con Tidyverse:</strong> Se integra perfectamente con pipes (<code>|&gt;</code> o <code>|&gt;</code>), estructuras de datos tipo <code>tibble</code> y funciones de manipulación de datos habituales.</li>
-<li><strong>Prevención de fuga de datos:</strong> Gracias al uso de <strong>recipes</strong> y <strong>workflows</strong>, el preprocesamiento de datos se calcula únicamente sobre los conjuntos de entrenamiento, aplicando las mismas transformaciones de forma segura en validación o prueba.</li>
+<li><strong>Sintaxis unificada:</strong> proporciona una interfaz consistente (<strong>parsnip</strong>) para entrenar cientos de modelos de Machine Learning (regresión lineal, árboles de decisión, random forest, XGBoost, etc.) sin tener que aprender la sintaxis nativa de cada paquete específico.</li>
+<li><strong>Diseño modular:</strong>cada tarea del flujo de trabajo (dividir datos, limpiar, entrenar, evaluar) cuenta con un paquete especializado y cohesivo.</li>
+<li><strong>Integración con Tidyverse:</strong> se integra perfectamente con pipes (<code>|&gt;</code> o <code>|&gt;</code>), estructuras de datos tipo <code>tibble</code> y funciones de manipulación de datos habituales.</li>
+<li><strong>Prevención de fuga de datos:</strong> gracias al uso de <strong>recipes</strong> y <strong>workflows</strong>, el preprocesamiento de datos se calcula únicamente sobre los conjuntos de entrenamiento, aplicando las mismas transformaciones de forma segura en validación o prueba.</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -233,28 +240,26 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., </span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat, </span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">10</span>, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntree =</span> <span class="dv">2000</span>, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># From ranger</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>rf_2 <span class="ot">&lt;-</span> <span class="fu">ranger</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat, </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">10</span>, </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">num.trees =</span> <span class="dv">2000</span>, </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> <span class="st">"impurity"</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># From sparklyr</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>rf_3 <span class="ot">&lt;-</span> <span class="fu">ml_random_forest</span>(</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  dat, </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercept =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> <span class="st">"y"</span>, </span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">names</span>(dat)[<span class="fu">names</span>(dat) <span class="sc">!=</span> <span class="st">"y"</span>], </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.sample.rate =</span> <span class="dv">10</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">num.trees =</span> <span class="dv">2000</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntree =</span> <span class="dv">2000</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># From ranger</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>rf_2 <span class="ot">&lt;-</span> <span class="fu">ranger</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">10</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">num.trees =</span> <span class="dv">2000</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># From sparklyr</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>rf_3 <span class="ot">&lt;-</span> <span class="fu">ml_random_forest</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  dat, </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercept =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> <span class="st">"y"</span>, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">names</span>(dat)[<span class="fu">names</span>(dat) <span class="sc">!=</span> <span class="st">"y"</span>], </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.sample.rate =</span> <span class="dv">10</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">num.trees =</span> <span class="dv">2000</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Tener que memorizar tantos nombres de parámetros y diferentes formas de ingresar los datos es estresante.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -263,8 +268,8 @@ window.Quarto = {
 </figure>
 </div>
 </section>
-<section id="material-para-aprender" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="material-para-aprender"><span class="header-section-number">1.2</span> Material para aprender</h2>
+<section id="material-para-aprender-sobre-tidymodels" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="material-para-aprender-sobre-tidymodels"><span class="header-section-number">1.2</span> Material para aprender sobre tidymodels</h2>
 <p>Existe un extenso material en la web que se puede utilizar para aprender sobre tidymodels.</p>
 <section id="página-web-httpswww.tidymodels.org" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="página-web-httpswww.tidymodels.org">Página web <a href="https://www.tidymodels.org" class="uri">https://www.tidymodels.org</a></h3>
@@ -283,6 +288,7 @@ window.Quarto = {
 <p><img src="figs/book_tdr.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
 </figure>
 </div>
+<p><br><br></p>
 </section>
 <section id="libro-machine-learning-with-tidymodels" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="libro-machine-learning-with-tidymodels">Libro “Machine Learning with Tidymodels”</h3>
@@ -298,8 +304,8 @@ window.Quarto = {
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/fRj8dr-aSsU?si=ZSnXfNL2IYD2nCiG" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </section>
 </section>
-<section id="equipo-desarrollador" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="equipo-desarrollador"><span class="header-section-number">1.3</span> Equipo desarrollador</h2>
+<section id="equipo-desarrollador-de-tidymodels" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="equipo-desarrollador-de-tidymodels"><span class="header-section-number">1.3</span> Equipo desarrollador de tidymodels</h2>
 <p>El equipo de trabajo de tidymodels tiene a varios colaboradores que se pueden consultar en <a href="https://www.tidymodels.org/about/">este enlace</a>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -350,13 +356,19 @@ window.Quarto = {
 <hr>
 </section>
 </section>
-<section id="estructura-del-taller" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Estructura del taller</h1>
-<p>El taller tendrá las siguientes actividades:</p>
-<ul>
-<li>Mirar y analizar códigos para realizar una tarea.</li>
-<li>Completar códigos para realizar una tarea.</li>
-</ul>
+<section id="estructura-del-tutorial" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Estructura del tutorial</h1>
+<p>El tutorial tendrá las siguientes actividades:</p>
+<ol type="1">
+<li>👀 🧠 Mirar y analizar códigos para realizar una tarea.</li>
+<li>✍🏽 Completar códigos para realizar una tarea. El documento de word con las preguntas y códigos está disponible en este <a href="https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx">enlace</a>. Para descargar el documento de word debe dar click en las palabras “View raw”.</li>
+<li>🧨 Las respuestas a las preguntas del documento de word están en este <a href="https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/solucion_taller_penguins.R">enlace</a>. Revise la solución solo cuando usted ya tenga una respuesta.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/foto_taller.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+</figure>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figs/person_programming.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
@@ -365,51 +377,50 @@ window.Quarto = {
 <hr>
 </section>
 <section id="datos-de-ejemplo-toy-data" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Datos de ejemplo (toy data)</h1>
+<h1 data-number="3"><span class="header-section-number">3</span> Datos de ejemplo (<em>toy data</em>)</h1>
 <p>En esta sección vamos a mostrar los datos que vamos a utilizar como ejemplo. La idea de estos datos sencillos y con pocas observaciones y variables, es que podamos ver la utilidad de las funciones sin que los datos se roben el protagonismo.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gen_dat <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dni <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">10000000</span> <span class="sc">*</span> <span class="fu">runif</span>(<span class="at">n=</span>n), <span class="at">digits=</span><span class="dv">6</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  dni <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(dni)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  exp <span class="ot">&lt;-</span> <span class="fu">rpois</span>(n, <span class="at">lambda=</span><span class="dv">10</span>)         <span class="co"># Cuanti 1 (Predictora)</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  edad <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">22</span><span class="sc">:</span><span class="dv">65</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)   <span class="co"># Cuanti 2 (Predictora)</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  educa <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Posgrado"</span>, <span class="st">"Universitario"</span>, <span class="st">"Tecnico"</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  exp <span class="ot">&lt;-</span> <span class="fu">rpois</span>(n, <span class="at">lambda=</span><span class="dv">10</span>)                    <span class="co"># Cuanti 1 (Predictora)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  edad <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">22</span><span class="sc">:</span><span class="dv">65</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)      <span class="co"># Cuanti 2 (Predictora)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  educa <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Posgrado"</span>, <span class="st">"Univ"</span>, <span class="st">"Tecnico"</span>), </span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                        n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Tecnico"</span>, </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Universitario"</span>, </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Posgrado"</span>)) <span class="co"># Cuali 1 (Predictora)</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  depto <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Ventas"</span>, <span class="st">"IT"</span>, <span class="st">"Finanzas"</span>), </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                        n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Ventas"</span>, <span class="st">"IT"</span>, <span class="st">"Finanzas"</span>)) <span class="co"># Cuali 2 (Predictora)</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Creando la variable respuesta</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> edad <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> exp <span class="sc">+</span> </span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span> <span class="sc">*</span> (depto <span class="sc">==</span> <span class="st">"IT"</span>) <span class="sc">+</span> </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span> <span class="sc">*</span> (depto <span class="sc">==</span> <span class="st">"Finanzas"</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span> <span class="sc">*</span> (educa <span class="sc">==</span> <span class="st">"Universitario"</span>) <span class="sc">+</span> </span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">15</span> <span class="sc">*</span> (educa <span class="sc">==</span> <span class="st">"Posgrado"</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  salario <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> media, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># (Variable Respuesta de interés)</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">exp=</span>exp, <span class="at">edad=</span>edad, </span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">educa=</span>educa, <span class="at">depto=</span>depto, </span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dni=</span>dni, <span class="at">salario=</span>salario)</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat</span>(<span class="at">n=</span><span class="dv">10</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Tecnico"</span>, <span class="st">"Univ"</span>, <span class="st">"Posgrado"</span>)) <span class="co"># Cuali 1 (Predictora)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  depto <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Ventas"</span>, <span class="st">"IT"</span>, <span class="st">"Finanzas"</span>), </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                        n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Ventas"</span>, <span class="st">"IT"</span>, <span class="st">"Finanzas"</span>)) <span class="co"># Cuali 2 (Predictora)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Creando la variable respuesta</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> edad <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> exp <span class="sc">+</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span> <span class="sc">*</span> (depto <span class="sc">==</span> <span class="st">"IT"</span>) <span class="sc">+</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span> <span class="sc">*</span> (depto <span class="sc">==</span> <span class="st">"Finanzas"</span>) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span> <span class="sc">*</span> (educa <span class="sc">==</span> <span class="st">"Univ"</span>) <span class="sc">+</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">15</span> <span class="sc">*</span> (educa <span class="sc">==</span> <span class="st">"Posgrado"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  salario <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> media, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># Variable Respuesta</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">exp =</span> exp, <span class="at">edad =</span> edad, </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                      <span class="at">educa =</span> educa, <span class="at">depto =</span> depto, </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dni =</span> dni, <span class="at">salario =</span> salario)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat</span>(<span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   exp edad         educa    depto     dni  salario
-1   15   40      Posgrado Finanzas 2875775 260.8674
-2   11   57       Tecnico       IT 7883051 311.4860
-3    5   35      Posgrado   Ventas 4089769 206.2979
-4    4   38      Posgrado       IT 8830174 186.7268
-5   13   64 Universitario   Ventas 9404672 351.2821
-6   11   60       Tecnico   Ventas  455564 327.8655
-7   11   33       Tecnico Finanzas 5281054 181.7949
-8   10   36      Posgrado   Ventas 8924190 222.3455
-9    8   53       Tecnico       IT 5514350 295.0018
-10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+<pre><code>   exp edad    educa    depto     dni  salario
+1   15   40 Posgrado Finanzas 2875775 260.8674
+2   11   57  Tecnico       IT 7883051 311.4860
+3    5   35 Posgrado   Ventas 4089769 206.2979
+4    4   38 Posgrado       IT 8830174 186.7268
+5   13   64     Univ   Ventas 9404672 351.2821
+6   11   60  Tecnico   Ventas  455564 327.8655
+7   11   33  Tecnico Finanzas 5281054 181.7949
+8   10   36 Posgrado   Ventas 8924190 222.3455
+9    8   53  Tecnico       IT 5514350 295.0018
+10  15   63 Posgrado   Ventas 4566147 361.3607</code></pre>
 </div>
 </div>
 <p>Exploremos la estructura de nuestros datos.</p>
@@ -420,7 +431,7 @@ window.Quarto = {
 Columns: 6
 $ exp     &lt;int&gt; 15, 11, 5, 4, 13, 11, 11, 10, 8, 15
 $ edad    &lt;int&gt; 40, 57, 35, 38, 64, 60, 33, 36, 53, 63
-$ educa   &lt;fct&gt; Posgrado, Tecnico, Posgrado, Posgrado, Universitario, Tecnico,…
+$ educa   &lt;fct&gt; Posgrado, Tecnico, Posgrado, Posgrado, Univ, Tecnico, Tecnico,…
 $ depto   &lt;fct&gt; Finanzas, IT, Ventas, IT, Ventas, Ventas, Finanzas, Ventas, IT…
 $ dni     &lt;int&gt; 2875775, 7883051, 4089769, 8830174, 9404672, 455564, 5281054, …
 $ salario &lt;dbl&gt; 260.8674, 311.4860, 206.2979, 186.7268, 351.2821, 327.8655, 18…</code></pre>
@@ -446,7 +457,6 @@ $ salario &lt;dbl&gt; 260.8674, 311.4860, 206.2979, 186.7268, 351.2821, 327.8655
 <h1 data-number="4"><span class="header-section-number">4</span> recipes</h1>
 <p><img src="figs/recipes.jpeg" class="img-fluid" width="100"></p>
 <p>El paquete <strong>recipes</strong> se utiliza para el preprocesamiento y <em>feature engineering</em>. Permite definir una serie de pasos secuenciales (normalizar variables numéricas, imputar valores faltantes, crear variables dummy, etc.) antes de crear un modelo estadístico o un modelo de machine learning.</p>
-<p>Recomendación: ver el siguiente video para profundizar.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -473,7 +483,7 @@ $ salario &lt;dbl&gt; 260.8674, 311.4860, 206.2979, 186.7268, 351.2821, 327.8655
 <p><img src="figs/recipe_fun.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500"></p>
 </figure>
 </div>
-<p>Existen muchas funciones en recipes que hacen transformaciones sobre las variables, algunas de ellas son:</p>
+<p>Para completar una receta es necesario procesar los ingredientes, y es ahí donde las funciones <code>step_algo</code> de <strong>recipes</strong> que hacen transformaciones sobre las variables, algunas de ellas son:</p>
 <ul>
 <li><code>step_range(min=0, max=1)</code>: convierte al intervalo [0, 1].</li>
 <li><code>step_center()</code>: convierte la variable para que tenga media 0.</li>
@@ -608,19 +618,18 @@ ID:        1</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(pr1, <span class="at">new_data=</span>datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 8
-     exp   edad     dni salario educa_Universitario educa_Posgrado depto_IT
-   &lt;dbl&gt;  &lt;dbl&gt;   &lt;int&gt;   &lt;dbl&gt;               &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
- 1  3.87 0.226  2875775    261.                   0              1        0
- 2  3.32 0.774  7883051    311.                   0              0        1
- 3  2.24 0.0645 4089769    206.                   0              1        0
- 4  2    0.161  8830174    187.                   0              1        1
- 5  3.61 1      9404672    351.                   1              0        0
- 6  3.32 0.871   455564    328.                   0              0        0
- 7  3.32 0      5281054    182.                   0              0        0
- 8  3.16 0.0968 8924190    222.                   0              1        0
- 9  2.83 0.645  5514350    295.                   0              0        1
-10  3.87 0.968  4566147    361.                   0              1        0
-# ℹ 1 more variable: depto_Finanzas &lt;dbl&gt;</code></pre>
+     exp   edad    dni salario educa_Univ educa_Posgrado depto_IT depto_Finanzas
+   &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt;   &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;
+ 1  3.87 0.226  2.88e6    261.          0              1        0              1
+ 2  3.32 0.774  7.88e6    311.          0              0        1              0
+ 3  2.24 0.0645 4.09e6    206.          0              1        0              0
+ 4  2    0.161  8.83e6    187.          0              1        1              0
+ 5  3.61 1      9.40e6    351.          1              0        0              0
+ 6  3.32 0.871  4.56e5    328.          0              0        0              0
+ 7  3.32 0      5.28e6    182.          0              0        0              1
+ 8  3.16 0.0968 8.92e6    222.          0              1        0              0
+ 9  2.83 0.645  5.51e6    295.          0              0        1              0
+10  3.87 0.968  4.57e6    361.          0              1        0              0</code></pre>
 </div>
 </div>
 </section>
@@ -633,17 +642,17 @@ ID:        1</code></pre>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>datos2<span class="sc">$</span>educa[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>datos2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   exp edad         educa    depto     dni  salario
-1   NA   40      Posgrado Finanzas 2875775 260.8674
-2   NA   57       Tecnico       IT 7883051 311.4860
-3    5   35          &lt;NA&gt;   Ventas 4089769 206.2979
-4    4   38          &lt;NA&gt;       IT 8830174 186.7268
-5   13   64 Universitario   Ventas 9404672 351.2821
-6   11   60       Tecnico   Ventas  455564 327.8655
-7   11   33       Tecnico Finanzas 5281054 181.7949
-8   10   36      Posgrado   Ventas 8924190 222.3455
-9    8   53       Tecnico       IT 5514350 295.0018
-10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+<pre><code>   exp edad    educa    depto     dni  salario
+1   NA   40 Posgrado Finanzas 2875775 260.8674
+2   NA   57  Tecnico       IT 7883051 311.4860
+3    5   35     &lt;NA&gt;   Ventas 4089769 206.2979
+4    4   38     &lt;NA&gt;       IT 8830174 186.7268
+5   13   64     Univ   Ventas 9404672 351.2821
+6   11   60  Tecnico   Ventas  455564 327.8655
+7   11   33  Tecnico Finanzas 5281054 181.7949
+8   10   36 Posgrado   Ventas 8924190 222.3455
+9    8   53  Tecnico       IT 5514350 295.0018
+10  15   63 Posgrado   Ventas 4566147 361.3607</code></pre>
 </div>
 </div>
 <p>Hay varias funciones para imputar datos faltantes, aquí vamos a usar dos de ellas, <code>step_impute_bag</code> y <code>step_impute_knn</code>.</p>
@@ -657,35 +666,35 @@ ID:        1</code></pre>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(pr2, <span class="at">new_data =</span> datos2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 6
-     exp  edad educa         depto        dni salario
-   &lt;int&gt; &lt;int&gt; &lt;fct&gt;         &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt;
- 1     9    40 Posgrado      Finanzas 2875775    261.
- 2     9    57 Tecnico       IT       7883051    311.
- 3     5    35 Posgrado      Ventas   4089769    206.
- 4     4    38 Posgrado      IT       8830174    187.
- 5    13    64 Universitario Ventas   9404672    351.
- 6    11    60 Tecnico       Ventas    455564    328.
- 7    11    33 Tecnico       Finanzas 5281054    182.
- 8    10    36 Posgrado      Ventas   8924190    222.
- 9     8    53 Tecnico       IT       5514350    295.
-10    15    63 Posgrado      Ventas   4566147    361.</code></pre>
+     exp  edad educa    depto        dni salario
+   &lt;int&gt; &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt;
+ 1     9    40 Posgrado Finanzas 2875775    261.
+ 2     9    57 Tecnico  IT       7883051    311.
+ 3     5    35 Posgrado Ventas   4089769    206.
+ 4     4    38 Posgrado IT       8830174    187.
+ 5    13    64 Univ     Ventas   9404672    351.
+ 6    11    60 Tecnico  Ventas    455564    328.
+ 7    11    33 Tecnico  Finanzas 5281054    182.
+ 8    10    36 Posgrado Ventas   8924190    222.
+ 9     8    53 Tecnico  IT       5514350    295.
+10    15    63 Posgrado Ventas   4566147    361.</code></pre>
 </div>
 </div>
 <p>Comparemos con la base de datos que NO tiene los NA’s.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   exp edad         educa    depto     dni  salario
-1   15   40      Posgrado Finanzas 2875775 260.8674
-2   11   57       Tecnico       IT 7883051 311.4860
-3    5   35      Posgrado   Ventas 4089769 206.2979
-4    4   38      Posgrado       IT 8830174 186.7268
-5   13   64 Universitario   Ventas 9404672 351.2821
-6   11   60       Tecnico   Ventas  455564 327.8655
-7   11   33       Tecnico Finanzas 5281054 181.7949
-8   10   36      Posgrado   Ventas 8924190 222.3455
-9    8   53       Tecnico       IT 5514350 295.0018
-10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+<pre><code>   exp edad    educa    depto     dni  salario
+1   15   40 Posgrado Finanzas 2875775 260.8674
+2   11   57  Tecnico       IT 7883051 311.4860
+3    5   35 Posgrado   Ventas 4089769 206.2979
+4    4   38 Posgrado       IT 8830174 186.7268
+5   13   64     Univ   Ventas 9404672 351.2821
+6   11   60  Tecnico   Ventas  455564 327.8655
+7   11   33  Tecnico Finanzas 5281054 181.7949
+8   10   36 Posgrado   Ventas 8924190 222.3455
+9    8   53  Tecnico       IT 5514350 295.0018
+10  15   63 Posgrado   Ventas 4566147 361.3607</code></pre>
 </div>
 </div>
 </section>
@@ -703,20 +712,19 @@ ID:        1</code></pre>
 <span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(pr3, <span class="at">new_data =</span> datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 10
-     exp  edad     dni salario educa_Universitario educa_Posgrado depto_IT
-   &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;               &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
- 1    15    40 2875775    261.                   0              1        0
- 2    11    57 7883051    311.                   0              0        1
- 3     5    35 4089769    206.                   0              1        0
- 4     4    38 8830174    187.                   0              1        1
- 5    13    64 9404672    351.                   1              0        0
- 6    11    60  455564    328.                   0              0        0
- 7    11    33 5281054    182.                   0              0        0
- 8    10    36 8924190    222.                   0              1        0
- 9     8    53 5514350    295.                   0              0        1
-10    15    63 4566147    361.                   0              1        0
-# ℹ 3 more variables: depto_Finanzas &lt;dbl&gt;, edad_x_depto_IT &lt;dbl&gt;,
-#   edad_x_depto_Finanzas &lt;dbl&gt;</code></pre>
+     exp  edad     dni salario educa_Univ educa_Posgrado depto_IT depto_Finanzas
+   &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;
+ 1    15    40 2875775    261.          0              1        0              1
+ 2    11    57 7883051    311.          0              0        1              0
+ 3     5    35 4089769    206.          0              1        0              0
+ 4     4    38 8830174    187.          0              1        1              0
+ 5    13    64 9404672    351.          1              0        0              0
+ 6    11    60  455564    328.          0              0        0              0
+ 7    11    33 5281054    182.          0              0        0              1
+ 8    10    36 8924190    222.          0              1        0              0
+ 9     8    53 5514350    295.          0              0        1              0
+10    15    63 4566147    361.          0              1        0              0
+# ℹ 2 more variables: edad_x_depto_IT &lt;dbl&gt;, edad_x_depto_Finanzas &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <hr>
@@ -782,27 +790,27 @@ ID:        1</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>datos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   exp edad         educa    depto     dni  salario
-1   15   40      Posgrado Finanzas 2875775 260.8674
-2   11   57       Tecnico       IT 7883051 311.4860
-3    5   35      Posgrado   Ventas 4089769 206.2979
-4    4   38      Posgrado       IT 8830174 186.7268
-5   13   64 Universitario   Ventas 9404672 351.2821
-6   11   60       Tecnico   Ventas  455564 327.8655
-7   11   33       Tecnico Finanzas 5281054 181.7949
-8   10   36      Posgrado   Ventas 8924190 222.3455
-9    8   53       Tecnico       IT 5514350 295.0018
-10  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+<pre><code>   exp edad    educa    depto     dni  salario
+1   15   40 Posgrado Finanzas 2875775 260.8674
+2   11   57  Tecnico       IT 7883051 311.4860
+3    5   35 Posgrado   Ventas 4089769 206.2979
+4    4   38 Posgrado       IT 8830174 186.7268
+5   13   64     Univ   Ventas 9404672 351.2821
+6   11   60  Tecnico   Ventas  455564 327.8655
+7   11   33  Tecnico Finanzas 5281054 181.7949
+8   10   36 Posgrado   Ventas 8924190 222.3455
+9    8   53  Tecnico       IT 5514350 295.0018
+10  15   63 Posgrado   Ventas 4566147 361.3607</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  exp edad         educa    depto     dni  salario
-1  13   64 Universitario   Ventas 9404672 351.2821
-2  10   36      Posgrado   Ventas 8924190 222.3455
-3  15   40      Posgrado Finanzas 2875775 260.8674
-4  11   57       Tecnico       IT 7883051 311.4860
-5  11   60       Tecnico   Ventas  455564 327.8655
-6  15   63      Posgrado   Ventas 4566147 361.3607</code></pre>
+<pre><code>  exp edad    educa    depto     dni  salario
+1  13   64     Univ   Ventas 9404672 351.2821
+2  10   36 Posgrado   Ventas 8924190 222.3455
+3  15   40 Posgrado Finanzas 2875775 260.8674
+4  11   57  Tecnico       IT 7883051 311.4860
+5  11   60  Tecnico   Ventas  455564 327.8655
+6  15   63 Posgrado   Ventas 4566147 361.3607</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -837,12 +845,12 @@ ID:        1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  exp edad         educa    depto     dni  salario
-1  15   40      Posgrado Finanzas 2875775 260.8674
-2  11   57       Tecnico       IT 7883051 311.4860
-3   5   35      Posgrado   Ventas 4089769 206.2979
-4  13   64 Universitario   Ventas 9404672 351.2821
-5  11   60       Tecnico   Ventas  455564 327.8655</code></pre>
+<pre><code>  exp edad    educa    depto     dni  salario
+1  15   40 Posgrado Finanzas 2875775 260.8674
+2  11   57  Tecnico       IT 7883051 311.4860
+3   5   35 Posgrado   Ventas 4089769 206.2979
+4  13   64     Univ   Ventas 9404672 351.2821
+5  11   60  Tecnico   Ventas  455564 327.8655</code></pre>
 </div>
 </div>
 </section>
@@ -879,13 +887,17 @@ of 20.
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  exp edad         educa    depto     dni  salario
-1  15   40      Posgrado Finanzas 2875775 260.8674
-2  13   64 Universitario   Ventas 9404672 351.2821
-3  11   60       Tecnico   Ventas  455564 327.8655
-4  10   36      Posgrado   Ventas 8924190 222.3455</code></pre>
+<pre><code>  exp edad    educa    depto     dni  salario
+1  15   40 Posgrado Finanzas 2875775 260.8674
+2  13   64     Univ   Ventas 9404672 351.2821
+3  11   60  Tecnico   Ventas  455564 327.8655
+4  10   36 Posgrado   Ventas 8924190 222.3455</code></pre>
 </div>
 </div>
+<p><br><br></p>
+<p><img src="figs/su_turno.jpg" class="img-fluid" width="300"></p>
+<p>Realice los ejercicios 1, 2 y 3 del <a href="https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx">taller de word</a>.</p>
+<p><br><br></p>
 <hr>
 </section>
 </section>
@@ -927,6 +939,10 @@ of 20.
 <span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p><br><br></p>
+<p><img src="figs/su_turno.jpg" class="img-fluid" width="300"></p>
+<p>Realice el ejercicio 4 del <a href="https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx">taller de word</a>.</p>
+<p><br><br></p>
 <hr>
 </section>
 </section>
@@ -1018,7 +1034,7 @@ of 20.
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>nuevo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">3</span>),</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">edad=</span><span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">29</span>, <span class="dv">31</span>),</span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">educa=</span><span class="fu">c</span>(<span class="st">"Tecnico"</span>, <span class="st">"Universitario"</span>, <span class="st">"Posgrado"</span>),</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">educa=</span><span class="fu">c</span>(<span class="st">"Tecnico"</span>, <span class="st">"Univ"</span>, <span class="st">"Posgrado"</span>),</span>
 <span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">depto=</span><span class="fu">c</span>(<span class="st">"IT"</span>, <span class="st">"Finanzas"</span>, <span class="st">"Ventas"</span>),</span>
 <span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dni=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
 <span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">|&gt;</span> </span>
@@ -1035,6 +1051,10 @@ of 20.
 <p><img src="figs/pensando.png" class="img-fluid" width="50"></p>
 <p>¿Será posible resumir las predicciones anteriores en un número para evaluar si el modelo realiza bien su trabajo de predicción?</p>
 <p>Rta: sí.</p>
+<p><br><br></p>
+<p><img src="figs/su_turno.jpg" class="img-fluid" width="300"></p>
+<p>Realice el ejercicio 5 del <a href="https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx">taller de word</a>.</p>
+<p><br><br></p>
 <hr>
 </section>
 </section>
@@ -1357,17 +1377,25 @@ of 20.
 </div>
 </div>
 </div>
+<p><br><br></p>
+<p><img src="figs/su_turno.jpg" class="img-fluid" width="300"></p>
+<p>Realice el ejercicio 6 y 7 del <a href="https://github.com/fhernanb/taller_tidymodels_latinR/blob/main/taller_practico_penguins_tidymodels.docx">taller de word</a>.</p>
+<p><br><br></p>
 <hr>
 </section>
 </section>
-<section id="ejemplo-integrador" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Ejemplo integrador</h1>
-<p>En esta sección unificamos todos los paquetes anteriores en un flujo de trabajo formal (<em>workflow</em>) completo de principio a fin, aplicando preprocesamiento, entrenamiento y evaluación en una sola tubería coherente.</p>
-<hr>
-</section>
-<section id="reto" class="level1" data-number="12">
-<h1 data-number="12"><span class="header-section-number">12</span> Reto</h1>
-<p>¡Es hora de poner en práctica lo aprendido!</p>
+<section id="fin" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Fin</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/fin.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="800"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/gracias.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1000"></p>
+</figure>
+</div>
 </section>
 
 </main>
